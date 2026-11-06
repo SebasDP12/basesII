@@ -54,10 +54,12 @@ app.use('/api/patients', patientRoutes);
 app.use('/api/clinical', clinicalRoutes);
 app.use('/api/system', systemRoutes);
 
-// Ruta de captura para la SPA (Single Page Application)
-app.get('*', (req, res, next) => {
-  if (req.url.startsWith('/api')) return next();
-  res.sendFile(path.join(__dirname, '../../../public/index.html'));
+// Ruta de captura para la SPA (Single Page Application - compatible con Express 5)
+app.use((req, res, next) => {
+  if (req.method === 'GET' && !req.url.startsWith('/api')) {
+    return res.sendFile(path.join(__dirname, '../../../public/index.html'));
+  }
+  next();
 });
 
 // Manejador global de errores
