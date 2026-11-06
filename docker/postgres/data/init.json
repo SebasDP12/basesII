@@ -1,0 +1,146 @@
+{
+  "pacientes": [
+    {
+      "id_paciente": 1,
+      "nombre": "Juan",
+      "apellido": "Perez Morales",
+      "fecha_nacimiento": "1985-04-12",
+      "genero": "Masculino",
+      "telefono": "5552-1100",
+      "direccion": "Zona 10, Ciudad de Guatemala",
+      "correo": "juan.perez@email.com",
+      "tipo_sangre": "O+",
+      "activo": true,
+      "motivo_baja": null,
+      "fecha_baja": null
+    },
+    {
+      "id_paciente": 2,
+      "nombre": "Ana",
+      "apellido": "Gomez Mendez",
+      "fecha_nacimiento": "1992-09-23",
+      "genero": "Femenino",
+      "telefono": "5552-1101",
+      "direccion": "Zona 11, Ciudad de Guatemala",
+      "correo": "ana.gomez@email.com",
+      "tipo_sangre": "A+",
+      "activo": true,
+      "motivo_baja": null,
+      "fecha_baja": null
+    },
+    {
+      "id_paciente": 3,
+      "nombre": "Roberto",
+      "apellido": "Sanchez Solis",
+      "fecha_nacimiento": "1978-11-05",
+      "genero": "Masculino",
+      "telefono": "5552-1102",
+      "direccion": "Mixco, Guatemala",
+      "correo": "roberto.sanchez@email.com",
+      "tipo_sangre": "B+",
+      "activo": false,
+      "motivo_baja": "Traslado a hospital especializado",
+      "fecha_baja": "2026-10-25T10:00:00Z"
+    }
+  ],
+  "medicos": [
+    {
+      "id_medico": 1,
+      "nombre": "Carlos",
+      "apellido": "Ramirez",
+      "especialidad": "Medicina Interna",
+      "numero_colegiado": "COL-48291",
+      "telefono": "5551-0101"
+    },
+    {
+      "id_medico": 2,
+      "nombre": "Mariana",
+      "apellido": "Lopez",
+      "especialidad": "Cardiologia",
+      "numero_colegiado": "COL-39102",
+      "telefono": "5551-0102"
+    }
+  ],
+  "citas": [
+    {
+      "id_cita": 1,
+      "id_paciente": 1,
+      "id_medico": 1,
+      "fecha": "2026-10-15",
+      "hora": "09:00:00",
+      "motivo": "Control general de hipertension arterial",
+      "estado": "atendida"
+    },
+    {
+      "id_cita": 2,
+      "id_paciente": 1,
+      "id_medico": 2,
+      "fecha": "2026-11-02",
+      "hora": "10:30:00",
+      "motivo": "Evaluacion cardiovascular preventiva",
+      "estado": "atendida"
+    },
+    {
+      "id_cita": 3,
+      "id_paciente": 2,
+      "id_medico": 1,
+      "fecha": "2026-11-04",
+      "hora": "11:00:00",
+      "motivo": "Dolor en articulacion de rodilla izquierda",
+      "estado": "atendida"
+    }
+  ],
+  "diagnosticos": [
+    {
+      "id_diagnostico": 1,
+      "id_cita": 1,
+      "descripcion": "Hipertension arterial esencial estadio 1 bien controlada",
+      "codigo_referencia": "I10",
+      "gravedad": "Moderada",
+      "fecha": "2026-10-15"
+    },
+    {
+      "id_diagnostico": 2,
+      "id_cita": 2,
+      "descripcion": "Bradicardia sinusal benigna en reposo",
+      "codigo_referencia": "R00.1",
+      "gravedad": "Leve",
+      "fecha": "2026-11-02"
+    },
+    {
+      "id_diagnostico": 3,
+      "id_cita": 3,
+      "descripcion": "Tendinitis rotuliana por sobreesfuerzo",
+      "codigo_referencia": "M76.5",
+      "gravedad": "Moderada",
+      "fecha": "2026-11-04"
+    }
+  ],
+  "tratamientos": [
+    {
+      "id_tratamiento": 1,
+      "id_diagnostico": 1,
+      "medicamento": "Losartan Potasico",
+      "dosis": "50mg cada 24 horas",
+      "fecha_inicio": "2026-10-15",
+      "fecha_fin": "2027-04-15"
+    },
+    {
+      "id_tratamiento": 2,
+      "id_diagnostico": 2,
+      "medicamento": "Vitamina E y Dieta Cardiosaludable",
+      "dosis": "400 UI cada 24 horas",
+      "fecha_inicio": "2026-11-02",
+      "fecha_fin": "2026-12-02"
+    },
+    {
+      "id_tratamiento": 3,
+      "id_diagnostico": 3,
+      "medicamento": "Ibuprofeno y Gel Fisioterapeutico",
+      "dosis": "400mg cada 8 horas con alimentos",
+      "fecha_inicio": "2026-11-04",
+      "fecha_fin": "2026-11-14"
+    }
+  ]
+}
+

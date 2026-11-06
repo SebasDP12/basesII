@@ -1,7 +1,5 @@
--- ===============================================================
--- Clínica Odontológica - Base de Datos MySQL
--- Base de Datos II - Universidad Rafael Landívar
--- ===============================================================
+-- Esquema DDL y datos iniciales para Clinica Odontologica
+-- Motor: MySQL (InnoDB)
 
 CREATE DATABASE IF NOT EXISTS clinica_odontologica;
 USE clinica_odontologica;
@@ -69,33 +67,35 @@ CREATE TABLE IF NOT EXISTS medicamento (
     CONSTRAINT fk_med_diag FOREIGN KEY (id_diagnostico) REFERENCES diagnostico(id_diagnostico) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- ===============================================================
--- Datos Iniciales de Demostración
--- ===============================================================
-
+-- Insercion de odontologos
 INSERT IGNORE INTO odontologo (id_odontologo, nombre, apellido, especialidad, numero_colegiado, telefono) VALUES
-(1, 'Sofía', 'Mendoza', 'Odontología General y Estética', 'COL-OD-1290', '5553-2001'),
-(2, 'Rodrigo', 'Álvarez', 'Endodoncia y Cirugía Oral', 'COL-OD-1402', '5553-2002');
+(1, 'Sofia', 'Mendoza', 'Odontologia General y Estetica', 'COL-OD-1290', '5553-2001'),
+(2, 'Rodrigo', 'Alvarez', 'Endodoncia y Cirugia Oral', 'COL-OD-1402', '5553-2002');
 
+-- Insercion de pacientes
 INSERT IGNORE INTO paciente_clinica (id_paciente, nombre, apellido, fecha_nacimiento, telefono, correo, activo) VALUES
-(1, 'Lucía', 'Fernández Ramos', '1995-03-14', '5554-3001', 'lucia.fernandez@email.com', TRUE),
+(1, 'Lucia', 'Fernandez Ramos', '1995-03-14', '5554-3001', 'lucia.fernandez@email.com', TRUE),
 (2, 'Mario', 'Estrada Cruz', '1988-07-29', '5554-3002', 'mario.estrada@email.com', TRUE),
 (3, 'Carla', 'Pinto Barrios', '1990-12-10', '5554-3003', 'carla.pinto@email.com', FALSE);
 
 UPDATE paciente_clinica SET motivo_baja = 'Causa administrativa: Cambio de residencia al extranjero', fecha_baja = NOW() - INTERVAL 5 DAY WHERE id_paciente = 3;
 
+-- Insercion de citas
 INSERT IGNORE INTO cita_clinica (id_cita, id_paciente, id_odontologo, fecha, hora, motivo, estado) VALUES
-(1, 1, 1, '2026-10-20', '14:00:00', 'Limpieza dental y revisión de molestia en molar', 'atendida'),
-(2, 2, 2, '2026-11-03', '16:30:00', 'Dolor agudo con bebidas frías en premolar superior', 'atendida');
+(1, 1, 1, '2026-10-20', '14:00:00', 'Limpieza dental y revision de molestia en molar', 'atendida'),
+(2, 2, 2, '2026-11-03', '16:30:00', 'Dolor agudo con bebidas frias en premolar superior', 'atendida');
 
+-- Insercion de diagnosticos
 INSERT IGNORE INTO diagnostico (id_diagnostico, id_cita, descripcion, codigo_referencia, gravedad, fecha_diagnostico) VALUES
 (1, 1, 'Gingivitis marginal leve y placa bacteriana', 'K05.1', 'Leve', '2026-10-20'),
 (2, 2, 'Caries dentinaria profunda en pieza 24', 'K02.1', 'Moderada', '2026-11-03');
 
+-- Insercion de procedimientos
 INSERT IGNORE INTO procedimiento (id_procedimiento, id_cita, tipo_procedimiento, pieza_dental, costo, observaciones) VALUES
 (1, 1, 'Profilaxis Dental con Ultrasonido', 'Todas', 250.00, 'Limpieza completa sin complicaciones'),
-(2, 2, 'Obturación con Resina Fotocurable', 'Pieza 24', 420.00, 'Aislamiento absoluto y colocación de base cavitaria');
+(2, 2, 'Obturacion con Resina Fotocurable', 'Pieza 24', 420.00, 'Aislamiento absoluto y colocacion de base cavitaria');
 
+-- Insercion de medicamentos
 INSERT IGNORE INTO medicamento (id_medicamento, id_diagnostico, nombre_comercial, principio_activo, dosis, frecuencia) VALUES
-(1, 1, 'Perio-Aid Colutorio', 'Clorhexidina 0.12%', '15 ml enjuague', 'Cada 12 horas por 7 días'),
+(1, 1, 'Perio-Aid Colutorio', 'Clorhexidina 0.12%', '15 ml enjuague', 'Cada 12 horas por 7 dias'),
 (2, 2, 'Ketorolaco', 'Ketorolaco Trometamina 10mg', '1 tableta sublingual', 'Cada 8 horas en caso de dolor');

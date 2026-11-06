@@ -1,0 +1,130 @@
+{
+  "pacientes": [
+    {
+      "id_paciente": 1,
+      "nombre": "Lucia",
+      "apellido": "Fernandez Ramos",
+      "fecha_nacimiento": "1995-03-14",
+      "telefono": "5554-3001",
+      "correo": "lucia.fernandez@email.com",
+      "activo": true,
+      "motivo_baja": null,
+      "fecha_baja": null
+    },
+    {
+      "id_paciente": 2,
+      "nombre": "Mario",
+      "apellido": "Estrada Cruz",
+      "fecha_nacimiento": "1988-07-29",
+      "telefono": "5554-3002",
+      "correo": "mario.estrada@email.com",
+      "activo": true,
+      "motivo_baja": null,
+      "fecha_baja": null
+    },
+    {
+      "id_paciente": 3,
+      "nombre": "Carla",
+      "apellido": "Pinto Barrios",
+      "fecha_nacimiento": "1990-12-10",
+      "telefono": "5554-3003",
+      "correo": "carla.pinto@email.com",
+      "activo": false,
+      "motivo_baja": "Causa administrativa: Cambio de residencia al extranjero",
+      "fecha_baja": "2026-10-30T14:00:00Z"
+    }
+  ],
+  "odontologos": [
+    {
+      "id_odontologo": 1,
+      "nombre": "Sofia",
+      "apellido": "Mendoza",
+      "especialidad": "Odontologia General y Estetica",
+      "numero_colegiado": "COL-OD-1290",
+      "telefono": "5553-2001"
+    },
+    {
+      "id_odontologo": 2,
+      "nombre": "Rodrigo",
+      "apellido": "Alvarez",
+      "especialidad": "Endodoncia y Cirugia Oral",
+      "numero_colegiado": "COL-OD-1402",
+      "telefono": "5553-2002"
+    }
+  ],
+  "citas": [
+    {
+      "id_cita": 1,
+      "id_paciente": 1,
+      "id_odontologo": 1,
+      "fecha": "2026-10-20",
+      "hora": "14:00:00",
+      "motivo": "Limpieza dental y revision de molestia en molar",
+      "estado": "atendida"
+    },
+    {
+      "id_cita": 2,
+      "id_paciente": 2,
+      "id_odontologo": 2,
+      "fecha": "2026-11-03",
+      "hora": "16:30:00",
+      "motivo": "Dolor agudo con bebidas frias en premolar superior",
+      "estado": "atendida"
+    }
+  ],
+  "procedimientos": [
+    {
+      "id_procedimiento": 1,
+      "id_cita": 1,
+      "tipo_procedimiento": "Profilaxis Dental con Ultrasonido",
+      "pieza_dental": "Todas",
+      "costo": 250.00,
+      "observaciones": "Limpieza completa sin complicaciones"
+    },
+    {
+      "id_procedimiento": 2,
+      "id_cita": 2,
+      "tipo_procedimiento": "Obturacion con Resina Fotocurable",
+      "pieza_dental": "Pieza 24",
+      "costo": 420.00,
+      "observaciones": "Aislamiento absoluto y colocacion de base cavitaria"
+    }
+  ],
+  "diagnosticos": [
+    {
+      "id_diagnostico": 1,
+      "id_cita": 1,
+      "descripcion": "Gingivitis marginal leve y placa bacteriana",
+      "codigo_referencia": "K05.1",
+      "gravedad": "Leve",
+      "fecha_diagnostico": "2026-10-20"
+    },
+    {
+      "id_diagnostico": 2,
+      "id_cita": 2,
+      "descripcion": "Caries dentinaria profunda en pieza 24",
+      "codigo_referencia": "K02.1",
+      "gravedad": "Moderada",
+      "fecha_diagnostico": "2026-11-03"
+    }
+  ],
+  "medicamentos": [
+    {
+      "id_medicamento": 1,
+      "id_diagnostico": 1,
+      "nombre_comercial": "Perio-Aid Colutorio",
+      "principio_activo": "Clorhexidina 0.12%",
+      "dosis": "15 ml enjuague",
+      "frecuencia": "Cada 12 horas por 7 dias"
+    },
+    {
+      "id_medicamento": 2,
+      "id_diagnostico": 2,
+      "nombre_comercial": "Ketorolaco",
+      "principio_activo": "Ketorolaco Trometamina 10mg",
+      "dosis": "1 tableta sublingual",
+      "frecuencia": "Cada 8 horas en caso de dolor"
+    }
+  ]
+}
+

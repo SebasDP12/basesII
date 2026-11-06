@@ -43,10 +43,10 @@ institutionRouter.registerAdapter('odontologia', mysqlAdapter);
 institutionRouter.registerAdapter('laboratorio', mongoAdapter);
 institutionRouter.registerAdapter('pediatria', firestoreAdapter);
 
-console.log('✅ Adaptador PostgreSQL registrado -> Hospital General');
-console.log('✅ Adaptador MySQL registrado     -> Clínica Odontológica');
-console.log('✅ Adaptador MongoDB registrado   -> Laboratorio Clínico');
-console.log('✅ Adaptador Firestore registrado -> Centro Médico Pediátrico');
+console.log('[OK] Adaptador PostgreSQL registrado -> Hospital General');
+console.log('[OK] Adaptador MySQL registrado     -> Clinica Odontologica');
+console.log('[OK] Adaptador MongoDB registrado   -> Laboratorio Clinico');
+console.log('[OK] Adaptador Firestore registrado -> Centro Medico Pediatrico');
 
 // Rutas de API
 app.use('/api/auth', authRoutes);
@@ -73,8 +73,8 @@ app.use((err, req, res, next) => {
 
 // Iniciar servidor HTTP
 const server = app.listen(PORT, async () => {
-  console.log(`\n🚀 Servidor de Historiales Clínicos escuchando en http://localhost:${PORT}`);
-  console.log(`📡 Arquitectura Hexagonal activa con soporte simultáneo a 4 motores de BD.\n`);
+  console.log(`\nServidor de Historiales Clinicos escuchando en http://localhost:${PORT}`);
+  console.log(`Arquitectura Hexagonal activa con soporte a 4 motores de BD.\n`);
 
   // Intentar inicialización suave de esquemas en segundo plano si los contenedores están listos
   setTimeout(async () => {

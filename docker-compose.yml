@@ -1,9 +1,5 @@
-version: '3.8'
-
 services:
-  # ===============================================================
   # 1. Hospital General - PostgreSQL
-  # ===============================================================
   hospital_postgres:
     image: postgres:16-alpine
     container_name: bases2_postgres_hospital
@@ -13,7 +9,7 @@ services:
       POSTGRES_USER: admin
       POSTGRES_PASSWORD: adminpassword
     ports:
-      - "5432:5432"
+      - "5433:5432"
     volumes:
       - ./docker/postgres/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
       - pgdata:/var/lib/postgresql/data
@@ -23,9 +19,7 @@ services:
       timeout: 5s
       retries: 5
 
-  # ===============================================================
-  # 2. Clínica Odontológica - MySQL
-  # ===============================================================
+  # 2. Clinica Odontologica - MySQL
   odontologia_mysql:
     image: mysql:8.0
     container_name: bases2_mysql_odonto
@@ -37,7 +31,7 @@ services:
       MYSQL_USER: admin
       MYSQL_PASSWORD: adminpassword
     ports:
-      - "3306:3306"
+      - "3307:3306"
     volumes:
       - ./docker/mysql/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
       - mysqldata:/var/lib/mysql
@@ -119,3 +113,4 @@ volumes:
   pgdata:
   mysqldata:
   mongodata:
+

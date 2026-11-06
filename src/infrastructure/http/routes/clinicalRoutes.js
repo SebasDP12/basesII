@@ -37,3 +37,4 @@ router.post('/events', async (req, res) => {
 });
 
 module.exports = router;
+

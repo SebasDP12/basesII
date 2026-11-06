@@ -11,3 +11,4 @@ COPY . .
 EXPOSE 3000
 
 CMD ["node", "src/infrastructure/http/server.js"]
+

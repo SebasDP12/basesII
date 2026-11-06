@@ -1,16 +1,13 @@
-// ===============================================================
-// Laboratorio Clínico - Base de Datos MongoDB
-// Base de Datos II - Universidad Rafael Landívar
-// ===============================================================
+// Esquema e inicializacion de colecciones para Laboratorio Clinico
+// Motor: MongoDB
 
 db = db.getSiblingDB('laboratorio_clinico');
 
-// Limpiar colecciones si ya existen para inicialización limpia
 db.pacientes.drop();
 db.catalogo_examenes.drop();
 db.ordenes_examen.drop();
 
-// 1. Colección de Pacientes
+// Coleccion de Pacientes
 db.pacientes.insertMany([
   {
     id_paciente: 1,
@@ -38,8 +35,8 @@ db.pacientes.insertMany([
   },
   {
     id_paciente: 3,
-    nombre: "Víctor",
-    apellido: "Hernández Cruz",
+    nombre: "Victor",
+    apellido: "Hernandez Cruz",
     fecha_nacimiento: "1972-01-25",
     telefono: "5555-4003",
     correo: "victor.hernandez@email.com",
@@ -54,12 +51,12 @@ db.pacientes.createIndex({ id_paciente: 1 }, { unique: true });
 db.pacientes.createIndex({ correo: 1 });
 db.pacientes.createIndex({ activo: 1 });
 
-// 2. Catálogo de Exámenes
+// Catalogo de Examenes
 db.catalogo_examenes.insertMany([
   {
     id_tipo_examen: 1,
-    nombre_examen: "Hematología Completa",
-    descripcion: "Evaluación cuantitativa y morfológica de células sanguíneas",
+    nombre_examen: "Hematologia Completa",
+    descripcion: "Evaluacion cuantitativa y morfologica de celulas sanguineas",
     parametros: [
       { parametro: "Hemoglobina", unidad_medida: "g/dL", valor_referencia: "12.0 - 16.0" },
       { parametro: "Hematocrito", unidad_medida: "%", valor_referencia: "37.0 - 47.0" },
@@ -69,11 +66,11 @@ db.catalogo_examenes.insertMany([
   },
   {
     id_tipo_examen: 2,
-    nombre_examen: "Perfil Lipídico",
-    descripcion: "Medición de fracciones lipídicas en suero",
+    nombre_examen: "Perfil Lipidico",
+    descripcion: "Medicion de fracciones lipidicas en suero",
     parametros: [
       { parametro: "Colesterol Total", unidad_medida: "mg/dL", valor_referencia: "< 200" },
-      { parametro: "Triglicéridos", unidad_medida: "mg/dL", valor_referencia: "< 150" },
+      { parametro: "Trigliceridos", unidad_medida: "mg/dL", valor_referencia: "< 150" },
       { parametro: "HDL Colesterol", unidad_medida: "mg/dL", valor_referencia: "> 40" },
       { parametro: "LDL Colesterol", unidad_medida: "mg/dL", valor_referencia: "< 100" }
     ]
@@ -81,18 +78,18 @@ db.catalogo_examenes.insertMany([
   {
     id_tipo_examen: 3,
     nombre_examen: "Examen General de Orina (EGO)",
-    descripcion: "Análisis físico, químico y microscópico de sedimento urinario",
+    descripcion: "Analisis fisico, quimico y microscopico de sedimento urinario",
     parametros: [
-      { parametro: "Aspecto", unidad_medida: "Visual", valor_referencia: "Transparente / Límpido" },
+      { parametro: "Aspecto", unidad_medida: "Visual", valor_referencia: "Transparente / Limpido" },
       { parametro: "pH", unidad_medida: "Escala pH", valor_referencia: "5.0 - 7.5" },
       { parametro: "Densidad", unidad_medida: "g/ml", valor_referencia: "1.010 - 1.025" },
-      { parametro: "Proteínas", unidad_medida: "mg/dL", valor_referencia: "Negativo" },
+      { parametro: "Proteinas", unidad_medida: "mg/dL", valor_referencia: "Negativo" },
       { parametro: "Glucosa", unidad_medida: "mg/dL", valor_referencia: "Negativo" }
     ]
   }
 ]);
 
-// 3. Órdenes de Exámenes (Resultados embebidos dentro de la orden)
+// Ordenes de Examenes con parametros embebidos
 db.ordenes_examen.insertMany([
   {
     id_orden: 1,
@@ -102,11 +99,11 @@ db.ordenes_examen.insertMany([
     estado: "finalizado",
     tipo_examen: {
       id_tipo_examen: 1,
-      nombre_examen: "Hematología Completa"
+      nombre_examen: "Hematologia Completa"
     },
     motivo: "Chequeo de rutina y fatiga leve",
-    diagnostico: "Anemia leve normocítica normocrómica",
-    tratamiento: "Sulfato Ferroso 300mg diario + Ácido Fólico 5mg",
+    diagnostico: "Anemia leve normocitica normocromica",
+    tratamiento: "Sulfato Ferroso 300mg diario + Acido Folico 5mg",
     resultados: [
       { parametro: "Hemoglobina", unidad_medida: "g/dL", valor_referencia: "12.0 - 16.0", valor_obtenido: "10.8" },
       { parametro: "Hematocrito", unidad_medida: "%", valor_referencia: "37.0 - 47.0", valor_obtenido: "33.5" },
@@ -122,14 +119,14 @@ db.ordenes_examen.insertMany([
     estado: "finalizado",
     tipo_examen: {
       id_tipo_examen: 2,
-      nombre_examen: "Perfil Lipídico"
+      nombre_examen: "Perfil Lipidico"
     },
     motivo: "Control de dislipidemia",
     diagnostico: "Hipertrigliceridemia moderada",
     tratamiento: "Atorvastatina 20mg nocturno y plan nutricional bajo en grasas saturadas",
     resultados: [
       { parametro: "Colesterol Total", unidad_medida: "mg/dL", valor_referencia: "< 200", valor_obtenido: "235" },
-      { parametro: "Triglicéridos", unidad_medida: "mg/dL", valor_referencia: "< 150", valor_obtenido: "210" },
+      { parametro: "Trigliceridos", unidad_medida: "mg/dL", valor_referencia: "< 150", valor_obtenido: "210" },
       { parametro: "HDL Colesterol", unidad_medida: "mg/dL", valor_referencia: "> 40", valor_obtenido: "38" },
       { parametro: "LDL Colesterol", unidad_medida: "mg/dL", valor_referencia: "< 100", valor_obtenido: "155" }
     ]
@@ -144,14 +141,14 @@ db.ordenes_examen.insertMany([
       id_tipo_examen: 3,
       nombre_examen: "Examen General de Orina (EGO)"
     },
-    motivo: "Sospecha de infección urinaria baja",
-    diagnostico: "Infección de tracto urinario baja no complicada",
-    tratamiento: "Nitrofurantoína 100mg cada 12 horas por 7 días",
+    motivo: "Sospecha de infeccion urinaria baja",
+    diagnostico: "Infeccion de tracto urinario baja no complicada",
+    tratamiento: "Nitrofurantoina 100mg cada 12 horas por 7 dias",
     resultados: [
-      { parametro: "Aspecto", unidad_medida: "Visual", valor_referencia: "Transparente / Límpido", valor_obtenido: "Ligeramente Turbio" },
+      { parametro: "Aspecto", unidad_medida: "Visual", valor_referencia: "Transparente / Limpido", valor_obtenido: "Ligeramente Turbio" },
       { parametro: "pH", unidad_medida: "Escala pH", valor_referencia: "5.0 - 7.5", valor_obtenido: "6.5" },
       { parametro: "Densidad", unidad_medida: "g/ml", valor_referencia: "1.010 - 1.025", valor_obtenido: "1.020" },
-      { parametro: "Proteínas", unidad_medida: "mg/dL", valor_referencia: "Negativo", valor_obtenido: "Trazas (+)" },
+      { parametro: "Proteinas", unidad_medida: "mg/dL", valor_referencia: "Negativo", valor_obtenido: "Trazas (+)" },
       { parametro: "Glucosa", unidad_medida: "mg/dL", valor_referencia: "Negativo", valor_obtenido: "Negativo" }
     ]
   }
@@ -160,5 +157,3 @@ db.ordenes_examen.insertMany([
 db.ordenes_examen.createIndex({ id_orden: 1 }, { unique: true });
 db.ordenes_examen.createIndex({ id_paciente: 1 });
 db.ordenes_examen.createIndex({ estado: 1 });
-
-print("Inicialización de MongoDB para Laboratorio Clínico completada exitosamente.");

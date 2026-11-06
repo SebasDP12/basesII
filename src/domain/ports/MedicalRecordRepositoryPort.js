@@ -96,3 +96,4 @@ class MedicalRecordRepositoryPort {
 }
 
 module.exports = MedicalRecordRepositoryPort;
+

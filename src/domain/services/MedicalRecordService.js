@@ -143,3 +143,4 @@ class MedicalRecordService {
 }
 
 module.exports = new MedicalRecordService();
+

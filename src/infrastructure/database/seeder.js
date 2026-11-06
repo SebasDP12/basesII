@@ -11,21 +11,20 @@ async function seedPostgres() {
     if (fs.existsSync(sqlPath)) {
       const sql = fs.readFileSync(sqlPath, 'utf8');
       await pool.query(sql);
-      console.log('✅ PostgreSQL inicializado con éxito (Tablas y datos creados).');
+      console.log('[OK] PostgreSQL inicializado con exito (Tablas y datos creados).');
     }
   } catch (err) {
-    console.warn('⚠️ No se pudo conectar a PostgreSQL (se reintentará cuando el contenedor esté activo):', err.message);
+    console.warn('[INFO] PostgreSQL contenedor:', err.message);
   }
 }
 
 async function seedMySQL() {
-  console.log('\n--- [2/4] Inicializando MySQL (Clínica Odontológica) ---');
+  console.log('\n--- [2/4] Inicializando MySQL (Clinica Odontologica) ---');
   try {
     const pool = connectionManager.getMySQLPool();
     const sqlPath = path.join(__dirname, '../../../docker/mysql/init.sql');
     if (fs.existsSync(sqlPath)) {
       const sql = fs.readFileSync(sqlPath, 'utf8');
-      // Dividir por declaraciones para mysql2
       const statements = sql
         .split(';')
         .map(s => s.trim())
@@ -34,10 +33,10 @@ async function seedMySQL() {
       for (const statement of statements) {
         await pool.query(statement);
       }
-      console.log('✅ MySQL inicializado con éxito (Tablas InnoDB y datos creados).');
+      console.log('[OK] MySQL inicializado con exito (Tablas InnoDB y datos creados).');
     }
   } catch (err) {
-    console.warn('⚠️ No se pudo conectar a MySQL (se reintentará cuando el contenedor esté activo):', err.message);
+    console.warn('[INFO] MySQL contenedor:', err.message);
   }
 }
 
@@ -125,24 +124,24 @@ async function seedMongo() {
           ]
         }
       ]);
-      console.log('✅ MongoDB poblado con colecciones de documentos de prueba.');
+      console.log('[OK] MongoDB poblado con colecciones de documentos de prueba.');
     } else {
-      console.log('✅ MongoDB ya contiene datos registrados.');
+      console.log('[OK] MongoDB ya contiene datos registrados.');
     }
   } catch (err) {
-    console.warn('⚠️ No se pudo conectar a MongoDB (se reintentará cuando el contenedor esté activo):', err.message);
+    console.warn('[INFO] MongoDB:', err.message);
   }
 }
 
 async function seedFirestore() {
-  console.log('\n--- [4/4] Inicializando Firebase Firestore (Centro Médico Pediátrico) ---');
+  console.log('\n--- [4/4] Inicializando Firebase Firestore (Centro Medico Pediatrico) ---');
   try {
     const jsonPath = path.join(__dirname, '../../../docker/firestore/data/init.json');
     if (fs.existsSync(jsonPath)) {
-      console.log('✅ Firebase Firestore: Colecciones de documentos listas en el almacén local / emulador.');
+      console.log('[OK] Firebase Firestore: Colecciones de documentos listas.');
     }
   } catch (err) {
-    console.warn('⚠️ Error en Firestore:', err.message);
+    console.warn('[INFO] Firestore:', err.message);
   }
 }
 
@@ -165,3 +164,4 @@ if (require.main === module) {
 }
 
 module.exports = { seedPostgres, seedMySQL, seedMongo, seedFirestore };
+

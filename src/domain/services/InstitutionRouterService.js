@@ -73,3 +73,4 @@ class InstitutionRouterService {
 const routerInstance = new InstitutionRouterService();
 
 module.exports = routerInstance;
+

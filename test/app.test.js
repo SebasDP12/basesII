@@ -7,7 +7,7 @@ const MongoAdapter = require('../src/infrastructure/adapters/MongoAdapter');
 const FirestoreAdapter = require('../src/infrastructure/adapters/FirestoreAdapter');
 
 async function runTests() {
-  console.log('🧪 Iniciando Suite de Pruebas Automatizadas de Arquitectura Hexagonal...');
+  console.log('Iniciando Suite de Pruebas de Arquitectura Hexagonal...');
 
   // 1. Registro de adaptadores
   const pgAdapter = new PostgresAdapter();
@@ -20,9 +20,9 @@ async function runTests() {
   institutionRouter.registerAdapter('laboratorio', mgAdapter);
   institutionRouter.registerAdapter('pediatria', fsAdapter);
 
-  console.log('✅ Adaptadores registrados correctamente.');
+  console.log('[OK] Adaptadores registrados correctamente.');
 
-  // 2. Verificar resolución de enrutamiento
+  // 2. Verificar resolucion de enrutamiento
   const resolvedPg = institutionRouter.getAdapter('hospital');
   assert.strictEqual(resolvedPg.institutionId, 'hospital');
   assert.strictEqual(resolvedPg.engineName, 'PostgreSQL');
@@ -39,32 +39,32 @@ async function runTests() {
   assert.strictEqual(resolvedFs.institutionId, 'pediatria');
   assert.strictEqual(resolvedFs.engineName, 'Firebase Firestore');
 
-  console.log('✅ Enrutamiento por institución verificado exitosamente para los 4 motores.');
+  console.log('[OK] Enrutamiento verificado para los 4 motores.');
 
-  // 3. Probar adapter Firestore (Pediatría)
+  // 3. Probar adapter Firestore (Pediatria)
   const pediatricPatients = await medicalRecordService.listPatients('pediatria');
   assert.ok(Array.isArray(pediatricPatients));
   assert.ok(pediatricPatients.length > 0);
-  console.log(`✅ Consulta de pacientes en Pediatría (Firestore) exitosa: ${pediatricPatients.length} pacientes encontrados.`);
+  console.log(`[OK] Consulta en Pediatria (Firestore): ${pediatricPatients.length} pacientes.`);
 
-  // 4. Probar creación de nuevo paciente en Pediatría
+  // 4. Probar creacion de nuevo paciente en Pediatria
   const newPediatric = await medicalRecordService.registerNewPatient('pediatria', {
     nombre: 'Lucas',
-    apellido: 'Ramírez Test',
+    apellido: 'Ramirez Test',
     fechaNacimiento: '2024-01-01',
     genero: 'Masculino',
-    tutorNombre: 'María Test',
+    tutorNombre: 'Maria Test',
     tutorParentesco: 'Madre',
     telefono: '5559-9999'
   });
   assert.ok(newPediatric.id);
   assert.strictEqual(newPediatric.nombre, 'Lucas');
-  console.log(`✅ Registro de paciente nuevo (Historial Clínico) generado con ID: ${newPediatric.id}`);
+  console.log(`[OK] Registro de paciente nuevo generado con ID: ${newPediatric.id}`);
 
-  // 5. Probar registro de atención médica
+  // 5. Probar registro de atencion medica
   const medicalEventResult = await medicalRecordService.recordMedicalEvent('pediatria', {
     patientId: newPediatric.id,
-    motivo: 'Control de rutina pediátrico',
+    motivo: 'Control de rutina pediatrico',
     diagnosticoDescripcion: 'Desarrollo normal sin alteraciones',
     pesoKg: 10.5,
     tallaCm: 78.0,
@@ -73,33 +73,33 @@ async function runTests() {
     medicamento: 'Gotas de Vitamina A+D'
   });
   assert.ok(medicalEventResult.success);
-  console.log(`✅ Registro de atención médica, diagnóstico y vacuna exitoso:`, medicalEventResult.message);
+  console.log(`[OK] Registro de atencion medica, diagnostico y vacuna exitoso.`);
 
-  // 6. Probar obtención de historial clínico consolidado
+  // 6. Probar obtencion de historial clinico consolidado
   const history = await medicalRecordService.getFullClinicalHistory('pediatria', newPediatric.id);
   assert.ok(history);
   assert.strictEqual(history.paciente.nombre, 'Lucas');
   assert.ok(history.consultas.length >= 1);
-  console.log(`✅ Historial clínico completo recuperado: ${history.consultas.length} consultas registradas.`);
+  console.log(`[OK] Historial clinico completo recuperado: ${history.consultas.length} consultas.`);
 
-  // 7. Probar baja / archivo de historial por motivo específico
-  const archived = await medicalRecordService.archivePatientRecord('pediatria', newPediatric.id, 'Traslado a otra institución médica');
+  // 7. Probar baja / archivo de historial por motivo especifico
+  const archived = await medicalRecordService.archivePatientRecord('pediatria', newPediatric.id, 'Traslado a otra institucion medica');
   assert.strictEqual(archived.activo, false);
-  assert.strictEqual(archived.motivoBaja, 'Traslado a otra institución médica');
-  console.log(`✅ Baja y archivo de historial clínico ejecutado correctamente con auditoría de motivo.`);
+  assert.strictEqual(archived.motivoBaja, 'Traslado a otra institucion medica');
+  console.log(`[OK] Baja y archivo de historial clinico ejecutado correctamente.`);
 
-  // 8. Probar reactivación de historial
+  // 8. Probar reactivacion de historial
   const restored = await medicalRecordService.restorePatientRecord('pediatria', newPediatric.id);
   assert.strictEqual(restored.activo, true);
   assert.strictEqual(restored.motivoBaja, null);
-  console.log(`✅ Reactivación de historial clínico ejecutada correctamente.`);
+  console.log(`[OK] Reactivacion de historial clinico ejecutada correctamente.`);
 
   // 9. Verificar Query Logs en tiempo real
   const logs = institutionRouter.getQueryLogs();
   assert.ok(logs.length > 0);
-  console.log(`✅ Query Inspector capturó ${logs.length} trazas de operaciones en tiempo real.`);
+  console.log(`[OK] Query Inspector capturo ${logs.length} trazas en tiempo real.`);
 
-  console.log('\n🎉 ¡TODAS LAS PRUEBAS AUTOMATIZADAS PASARON SATISFACTORIAMENTE (100%)!\n');
+  console.log('\nPruebas automatizadas completadas con exito (100%).\n');
   process.exit(0);
 }
 
@@ -107,3 +107,4 @@ runTests().catch(err => {
   console.error('❌ Error durante la ejecución de pruebas:', err);
   process.exit(1);
 });
+

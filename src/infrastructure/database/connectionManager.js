@@ -19,7 +19,7 @@ class ConnectionManager {
     if (!this.pgPool) {
       this.pgPool = new PgPool({
         host: process.env.POSTGRES_HOST || 'localhost',
-        port: parseInt(process.env.POSTGRES_PORT || '5432', 10),
+        port: parseInt(process.env.POSTGRES_PORT || '5433', 10),
         database: process.env.POSTGRES_DB || 'hospital_general',
         user: process.env.POSTGRES_USER || 'admin',
         password: process.env.POSTGRES_PASSWORD || 'adminpassword',
@@ -34,12 +34,12 @@ class ConnectionManager {
     return this.pgPool;
   }
 
-  // 2. MySQL (Clínica Odontológica)
+  // 2. MySQL (Clinica Odontologica)
   getMySQLPool() {
     if (!this.mysqlPool) {
       this.mysqlPool = mysql.createPool({
         host: process.env.MYSQL_HOST || 'localhost',
-        port: parseInt(process.env.MYSQL_PORT || '3306', 10),
+        port: parseInt(process.env.MYSQL_PORT || '3307', 10),
         database: process.env.MYSQL_DB || 'clinica_odontologica',
         user: process.env.MYSQL_USER || 'admin',
         password: process.env.MYSQL_PASSWORD || 'adminpassword',
@@ -106,3 +106,4 @@ class ConnectionManager {
 }
 
 module.exports = new ConnectionManager();
+

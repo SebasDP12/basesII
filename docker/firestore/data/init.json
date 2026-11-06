@@ -33,6 +33,14 @@
       "telefono": "5559-9999",
       "correo": "",
       "direccion": "Ciudad de Guatemala"
+    },
+    {
+      "id_tutor": "5",
+      "nombre": "Maria Test",
+      "parentesco": "Madre",
+      "telefono": "5559-9999",
+      "correo": "",
+      "direccion": "Ciudad de Guatemala"
     }
   ],
   "pacientes": [
@@ -127,6 +135,25 @@
         "correo": "",
         "direccion": "Ciudad de Guatemala"
       }
+    },
+    {
+      "id_paciente": "6",
+      "id_tutor": "5",
+      "nombre": "Lucas",
+      "apellido": "Ramirez Test",
+      "fecha_nacimiento": "2024-01-01",
+      "genero": "Masculino",
+      "activo": true,
+      "motivo_baja": null,
+      "fecha_baja": null,
+      "tutor": {
+        "id_tutor": "5",
+        "nombre": "Maria Test",
+        "parentesco": "Madre",
+        "telefono": "5559-9999",
+        "correo": "",
+        "direccion": "Ciudad de Guatemala"
+      }
     }
   ],
   "consultas": [
@@ -173,6 +200,17 @@
       "observaciones": "Desarrollo acorde a edad cronológica",
       "diagnostico": "Desarrollo normal sin alteraciones",
       "tratamiento": "Gotas de Vitamina A+D"
+    },
+    {
+      "id_consulta": "5",
+      "id_paciente": "6",
+      "fecha": "2026-11-06",
+      "motivo": "Control de rutina pediatrico",
+      "peso_kg": 10.5,
+      "talla_cm": 78,
+      "observaciones": "Desarrollo acorde a edad cronológica",
+      "diagnostico": "Desarrollo normal sin alteraciones",
+      "tratamiento": "Gotas de Vitamina A+D"
     }
   ],
   "vacunaciones": [
@@ -212,6 +250,14 @@
       "id_vacunacion": "5",
       "id_paciente": "5",
       "id_vacuna": "V-5",
+      "nombre_vacuna": "Hexavalente",
+      "fecha_aplicacion": "2026-11-06",
+      "dosis_numero": 1
+    },
+    {
+      "id_vacunacion": "6",
+      "id_paciente": "6",
+      "id_vacuna": "V-6",
       "nombre_vacuna": "Hexavalente",
       "fecha_aplicacion": "2026-11-06",
       "dosis_numero": 1
