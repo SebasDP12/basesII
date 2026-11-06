@@ -1,0 +1,220 @@
+{
+  "tutores": [
+    {
+      "id_tutor": "1",
+      "nombre": "Brenda",
+      "apellido": "Navarro de León",
+      "parentesco": "Madre",
+      "telefono": "5556-5001",
+      "correo": "brenda.navarro@email.com",
+      "direccion": "Zona 7, Ciudad de Guatemala"
+    },
+    {
+      "id_tutor": "2",
+      "nombre": "Jorge",
+      "apellido": "Castillo Solórzano",
+      "parentesco": "Padre",
+      "telefono": "5556-5002",
+      "correo": "jorge.castillo@email.com",
+      "direccion": "Carretera a El Salvador, Km 14"
+    },
+    {
+      "id_tutor": "3",
+      "nombre": "María Test",
+      "parentesco": "Madre",
+      "telefono": "5559-9999",
+      "correo": "",
+      "direccion": "Ciudad de Guatemala"
+    },
+    {
+      "id_tutor": "4",
+      "nombre": "María Test",
+      "parentesco": "Madre",
+      "telefono": "5559-9999",
+      "correo": "",
+      "direccion": "Ciudad de Guatemala"
+    }
+  ],
+  "pacientes": [
+    {
+      "id_paciente": "1",
+      "id_tutor": "1",
+      "nombre": "Mateo",
+      "apellido": "Navarro de León",
+      "fecha_nacimiento": "2024-03-10",
+      "genero": "Masculino",
+      "activo": true,
+      "motivo_baja": null,
+      "fecha_baja": null,
+      "tutor": {
+        "id_tutor": "1",
+        "nombre": "Brenda Navarro de León",
+        "parentesco": "Madre",
+        "telefono": "5556-5001",
+        "correo": "brenda.navarro@email.com"
+      }
+    },
+    {
+      "id_paciente": "2",
+      "id_tutor": "2",
+      "nombre": "Sofía",
+      "apellido": "Castillo Solórzano",
+      "fecha_nacimiento": "2023-08-20",
+      "genero": "Femenino",
+      "activo": true,
+      "motivo_baja": null,
+      "fecha_baja": null,
+      "tutor": {
+        "id_tutor": "2",
+        "nombre": "Jorge Castillo Solórzano",
+        "parentesco": "Padre",
+        "telefono": "5556-5002",
+        "correo": "jorge.castillo@email.com"
+      }
+    },
+    {
+      "id_paciente": "3",
+      "id_tutor": "1",
+      "nombre": "Diego",
+      "apellido": "Navarro de León",
+      "fecha_nacimiento": "2021-05-15",
+      "genero": "Masculino",
+      "activo": false,
+      "motivo_baja": "Traslado a clínica pediátrica del interior del país",
+      "fecha_baja": "2026-09-30T10:00:00Z",
+      "tutor": {
+        "id_tutor": "1",
+        "nombre": "Brenda Navarro de León",
+        "parentesco": "Madre",
+        "telefono": "5556-5001",
+        "correo": "brenda.navarro@email.com"
+      }
+    },
+    {
+      "id_paciente": "4",
+      "id_tutor": "3",
+      "nombre": "Lucas",
+      "apellido": "Ramírez Test",
+      "fecha_nacimiento": "2024-01-01",
+      "genero": "Masculino",
+      "activo": true,
+      "motivo_baja": null,
+      "fecha_baja": null,
+      "tutor": {
+        "id_tutor": "3",
+        "nombre": "María Test",
+        "parentesco": "Madre",
+        "telefono": "5559-9999",
+        "correo": "",
+        "direccion": "Ciudad de Guatemala"
+      }
+    },
+    {
+      "id_paciente": "5",
+      "id_tutor": "4",
+      "nombre": "Lucas",
+      "apellido": "Ramírez Test",
+      "fecha_nacimiento": "2024-01-01",
+      "genero": "Masculino",
+      "activo": true,
+      "motivo_baja": null,
+      "fecha_baja": null,
+      "tutor": {
+        "id_tutor": "4",
+        "nombre": "María Test",
+        "parentesco": "Madre",
+        "telefono": "5559-9999",
+        "correo": "",
+        "direccion": "Ciudad de Guatemala"
+      }
+    }
+  ],
+  "consultas": [
+    {
+      "id_consulta": "1",
+      "id_paciente": "1",
+      "fecha": "2026-09-12",
+      "motivo": "Control de niño sano 18 meses",
+      "peso_kg": 11.4,
+      "talla_cm": 82.5,
+      "observaciones": "Desarrollo psicomotor y nutricional adecuado para la edad",
+      "diagnostico": "Niño sano, crecimiento percentil 50",
+      "tratamiento": "Vitamina D3 400 UI diarias en gotas"
+    },
+    {
+      "id_consulta": "2",
+      "id_paciente": "1",
+      "fecha": "2026-10-25",
+      "motivo": "Fiebre y tos seca de 48 horas",
+      "peso_kg": 11.6,
+      "talla_cm": 83,
+      "observaciones": "Faringe hiperémica, campos pulmonares limpios",
+      "diagnostico": "Rinofaringitis viral aguda",
+      "tratamiento": "Acetaminofén jarabe 120mg/5ml, 5ml cada 6 horas por fiebre, abundantes líquidos"
+    },
+    {
+      "id_consulta": "3",
+      "id_paciente": "2",
+      "fecha": "2026-11-03",
+      "motivo": "Control pediátrico de rutina 3 años",
+      "peso_kg": 14.2,
+      "talla_cm": 95,
+      "observaciones": "Crecimiento óptimo, lenguaje estructurado",
+      "diagnostico": "Desarrollo armónico adecuado",
+      "tratamiento": "Mantener dieta balanceada y suplemento de Zinc"
+    },
+    {
+      "id_consulta": "4",
+      "id_paciente": "5",
+      "fecha": "2026-11-06",
+      "motivo": "Control de rutina pediátrico",
+      "peso_kg": 10.5,
+      "talla_cm": 78,
+      "observaciones": "Desarrollo acorde a edad cronológica",
+      "diagnostico": "Desarrollo normal sin alteraciones",
+      "tratamiento": "Gotas de Vitamina A+D"
+    }
+  ],
+  "vacunaciones": [
+    {
+      "id_vacunacion": "1",
+      "id_paciente": "1",
+      "id_vacuna": "1",
+      "nombre_vacuna": "Pentavalente (DTP + Hib + HB)",
+      "fecha_aplicacion": "2024-05-10",
+      "dosis_numero": 1
+    },
+    {
+      "id_vacunacion": "2",
+      "id_paciente": "1",
+      "id_vacuna": "2",
+      "nombre_vacuna": "Neumococo Conjugada",
+      "fecha_aplicacion": "2024-05-10",
+      "dosis_numero": 1
+    },
+    {
+      "id_vacunacion": "3",
+      "id_paciente": "1",
+      "id_vacuna": "3",
+      "nombre_vacuna": "Triple Viral (SPR)",
+      "fecha_aplicacion": "2025-03-15",
+      "dosis_numero": 1
+    },
+    {
+      "id_vacunacion": "4",
+      "id_paciente": "2",
+      "id_vacuna": "3",
+      "nombre_vacuna": "Triple Viral (SPR)",
+      "fecha_aplicacion": "2024-08-25",
+      "dosis_numero": 1
+    },
+    {
+      "id_vacunacion": "5",
+      "id_paciente": "5",
+      "id_vacuna": "V-5",
+      "nombre_vacuna": "Hexavalente",
+      "fecha_aplicacion": "2026-11-06",
+      "dosis_numero": 1
+    }
+  ]
+}

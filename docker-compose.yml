@@ -1,0 +1,121 @@
+version: '3.8'
+
+services:
+  # ===============================================================
+  # 1. Hospital General - PostgreSQL
+  # ===============================================================
+  hospital_postgres:
+    image: postgres:16-alpine
+    container_name: bases2_postgres_hospital
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: hospital_general
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: adminpassword
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./docker/postgres/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U admin -d hospital_general"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  # ===============================================================
+  # 2. Clínica Odontológica - MySQL
+  # ===============================================================
+  odontologia_mysql:
+    image: mysql:8.0
+    container_name: bases2_mysql_odonto
+    restart: unless-stopped
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: clinica_odontologica
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: adminpassword
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./docker/mysql/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+      - mysqldata:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "admin", "-padminpassword"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  # ===============================================================
+  # 3. Laboratorio Clínico - MongoDB
+  # ===============================================================
+  laboratorio_mongo:
+    image: mongo:7.0
+    container_name: bases2_mongo_lab
+    restart: unless-stopped
+    environment:
+      MONGO_INITDB_DATABASE: laboratorio_clinico
+    ports:
+      - "27017:27017"
+    volumes:
+      - ./docker/mongo/init.js:/docker-entrypoint-initdb.d/init.js:ro
+      - mongodata:/data/db
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  # ===============================================================
+  # 4. Centro Médico Pediátrico - Firebase Firestore Emulator
+  # ===============================================================
+  pediatria_firestore:
+    image: mtlynch/firestore-emulator
+    container_name: bases2_firestore_pediatria
+    restart: unless-stopped
+    environment:
+      FIRESTORE_PROJECT_ID: pediatria-project
+      PORT: 8080
+    ports:
+      - "8080:8080"
+
+  # ===============================================================
+  # Aplicación Principal Full-Stack (Hexagonal Architecture)
+  # ===============================================================
+  app:
+    build: .
+    container_name: bases2_app
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      NODE_ENV: production
+      PORT: 3000
+      POSTGRES_HOST: hospital_postgres
+      POSTGRES_PORT: 5432
+      POSTGRES_DB: hospital_general
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: adminpassword
+      MYSQL_HOST: odontologia_mysql
+      MYSQL_PORT: 3306
+      MYSQL_DB: clinica_odontologica
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: adminpassword
+      MONGO_URI: mongodb://laboratorio_mongo:27017/laboratorio_clinico
+      FIRESTORE_EMULATOR_HOST: pediatria_firestore:8080
+      FIRESTORE_PROJECT_ID: pediatria-project
+    depends_on:
+      hospital_postgres:
+        condition: service_started
+      odontologia_mysql:
+        condition: service_started
+      laboratorio_mongo:
+        condition: service_started
+      pediatria_firestore:
+        condition: service_started
+
+volumes:
+  pgdata:
+  mysqldata:
+  mongodata:
