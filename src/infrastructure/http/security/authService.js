@@ -144,7 +144,8 @@ function requireSession(req, res, next) {
     }
   }
   const requested = req.headers['x-institution-id'] || req.query?.institutionId || req.body?.institutionId;
-  if (requested && requested !== session.institutionId) {
+  if (requested && requested !== session.institutionId &&
+      !(session.institutionId === 'admin' && req.baseUrl === '/api/admin')) {
     return res.status(403).json({ success: false, error: 'No tiene autorización para esta institución.' });
   }
   req.auth = session;
