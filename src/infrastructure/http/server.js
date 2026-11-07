@@ -13,13 +13,16 @@ const authRoutes = require('./routes/authRoutes');
 const patientRoutes = require('./routes/patientRoutes');
 const clinicalRoutes = require('./routes/clinicalRoutes');
 const systemRoutes = require('./routes/systemRoutes');
+const professionalRoutes = require('./routes/professionalRoutes');
+const { requireSession } = require('./security/authService');
 const { seedPostgres, seedMySQL, seedMongo, seedFirestore } = require('../database/seeder');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
 // Middlewares
-app.use(cors());
+// Same-origin browser client. No cross-site credential access.
+app.disable('x-powered-by');
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -50,9 +53,10 @@ console.log('[OK] Adaptador Firestore registrado -> Centro Medico Pediatrico');
 
 // Rutas de API
 app.use('/api/auth', authRoutes);
-app.use('/api/patients', patientRoutes);
-app.use('/api/clinical', clinicalRoutes);
+app.use('/api/patients', requireSession, patientRoutes);
+app.use('/api/clinical', requireSession, clinicalRoutes);
 app.use('/api/system', systemRoutes);
+app.use('/api/professionals', requireSession, professionalRoutes);
 
 // Ruta de captura para la SPA (Single Page Application - compatible con Express 5)
 app.use((req, res, next) => {
@@ -64,10 +68,10 @@ app.use((req, res, next) => {
 
 // Manejador global de errores
 app.use((err, req, res, next) => {
-  console.error('[Unhandled Server Error]:', err);
+  console.error('[Server Error]:', err.message);
   res.status(500).json({
     success: false,
-    error: err.message || 'Error interno del servidor'
+    error: 'Error interno del servidor'
   });
 });
 
