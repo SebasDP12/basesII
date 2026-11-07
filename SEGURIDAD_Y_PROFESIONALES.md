@@ -1,3 +1,75 @@
+# Acceso por interfaz administrativa (preferido)
+
+## Abrir el panel
+Con la aplicación levantada en Docker, ingrese a:
+
+`http://localhost:3000/admin`
+
+Si aún no hay un administrador, aparece la pantalla de configuración inicial.
+En el primer arranque, el servidor crea el código único de instalación en
+`security/admin-setup-code.txt`. El código no se muestra en la página ni se
+registra en el inspector de consultas.
+
+El archivo es local, está excluido de Git y queda disponible en el host al
+iniciar usando el archivo de composición complementario:
+
+```bash
+docker compose -f docker-compose.yml -f docker-compose.security.yml up -d --build app
+```
+
+Abra el archivo `security/admin-setup-code.txt` desde el explorador o un editor,
+copie el código y rellene el formulario de alta de administrador una sola vez.
+Una vez creada la cuenta, el código se borra automáticamente.
+
+En `/admin` podrá iniciar sesión, registrar usuarios y profesionales para
+cada establecimiento, asignar roles, crear contraseñas y suspender/reactivar
+cuentas. Las contraseñas se almacenan como hashes scrypt en
+`security/users.json`, no en las bases de datos clínicas.
+
+Los roles disponibles son: médico/recepción (Hospital General),
+odontólogo/recepción (Clínica), laboratorista/recepción (Laboratorio)
+y pediatra/enfermería/recepción (Pediatría).
+El servidor comprueba tanto el rol como la institución en las rutas.
+Un usuario pediatra no puede acceder a expedientes de odontología.
+
+La creación de profesionales usa las tablas existentes `medico` y
+`odontologo` para los motores SQL; en los motores documentales utiliza
+`profesionales` sin borrar colecciones. Las altas se realizan contra los
+motores reales, no los JSON de respaldo. Verifique la disponibilidad de
+cada motor antes de registrar personal. Si ocurre un fallo parcial, revise
+si quedó registrada una ficha profesional antes de volver a enviarla.
+
+**Importante:** la configuración inicial requiere acceso al archivo local
+del código de instalación. No publique este archivo ni su contenido.
+
+## Archivos de datos iniciales y condiciones originales
+
+- `docker/postgres/init.sql` y `docker/mysql/init.sql` **existían antes de
+  esta rama**. Crean tablas en los motores relacionales.
+- Los correspondientes `docker/*/data/init.json` se usan como datos locales
+  de respaldo en los adaptadores; no constituyen motores adicionales.
+- Se preservan todos los archivos originales `init.sql`, `init.js` e
+  `init.json`, los puertos Docker, los volúmenes y la arquitectura hexagonal.
+- El script opcional `scripts/seed-professionals.js` agrega catálogos de
+  profesionales a MongoDB y Firestore; no modifica las tablas SQL existentes.
+- La demostración aún utiliza fallbacks JSON; una base desconectada podría
+  aparentar funcionar. Antes de entregar conviene diferenciar en pantalla
+  la consulta real del modo de respaldo.
+
+## Verificación mínima de permisos
+
+1. Desde `/admin` cree un pediatra y un odontólogo con contraseñas distintas.
+2. Verifique que el pediatra entre a Pediatría y no pueda consultar Odontología
+   modificando la cabecera `x-institution-id`.
+3. Verifique que recepción no pueda registrar una consulta ni archivar.
+4. Suspenda una cuenta; la siguiente petición autenticada debe devolver 401.
+5. Revise el inspector: no debe registrar contraseñas en claro.
+
+Para uso real sigue pendiente una revisión de las vistas de expedientes frente
+a XSS y de la política de auditoría/privacidad de pacientes.
+
+---
+
 # SaludRed: acceso seguro y profesionales
 
 ## Alcance
