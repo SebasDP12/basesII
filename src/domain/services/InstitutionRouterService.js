@@ -49,8 +49,8 @@ class InstitutionRouterService {
    */
   logQuery(institutionId, engine, operation, rawQuery, executionTimeMs = 0) {
     const sanitize = (value) => String(value ?? '')
-      .replace(/(password|passwd|contrasena|contraseña|token|authorization|secret|api[_-]?key)\\s*[:=]\\s*([\\"']?)[^,\\s;}]+/gi, '$1=[OCULTO]')
-      .replace(/(postgres(?:ql)?:\\/\\/|mysql:\\/\\/|mongodb(?:\\+srv)?:\\/\\/)[^@\\s]+@/gi, '$1[OCULTO]@');
+      .replace(/(password|passwd|contrasena|contraseña|token|authorization|secret|api[_-]?key)\s*[:=]\s*(['"]?)[^,\s;}]+/gi, '$1=[OCULTO]')
+      .replace(/(postgres(?:ql)?:\/\/|mysql:\/\/|mongodb(?:\+srv)?:\/\/)[^@\s]+@/gi, '$1[OCULTO]@');
     const logEntry = {
       id: Date.now() + Math.random().toString(36).substring(2, 7),
       timestamp: new Date().toISOString(),
