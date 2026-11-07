@@ -159,6 +159,28 @@
     </div>
   </main>
 
+  <!-- Pantalla intermedia: credenciales verificadas en el servidor -->
+  <main class="main-content" id="view-access" style="display:none;">
+    <section class="access-panel card" aria-labelledby="accessHeading">
+      <button type="button" class="btn btn-secondary btn-sm" onclick="irAlPortal()">← Volver al portal</button>
+      <h2 id="accessHeading">Acceso al establecimiento</h2>
+      <p id="accessInstitutionName">Introduzca las credenciales autorizadas.</p>
+      <form id="accessForm" autocomplete="on">
+        <div class="form-group">
+          <label class="form-label" for="accessUser">Usuario</label>
+          <input class="form-input" id="accessUser" name="username" autocomplete="username" required maxlength="80">
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="accessPassword">Contraseña</label>
+          <input class="form-input" id="accessPassword" name="password" type="password" autocomplete="current-password" required>
+        </div>
+        <p id="accessError" class="access-error" role="alert" aria-live="polite"></p>
+        <button type="submit" class="btn btn-primary">Verificar e ingresar</button>
+      </form>
+      <p class="access-hint">El acceso se valida contra el archivo de usuarios del servidor. Las contraseñas no se envían al inspector de consultas.</p>
+    </section>
+  </main>
+
   <!-- =============================================================== -->
   <!-- PANTALLA 2: VISTA EXCLUSIVA DEL ESTABLECIMIENTO SELECCIONADO -->
   <!-- =============================================================== -->
@@ -191,6 +213,7 @@
       <button class="tab-btn active" data-tab="historiales" onclick="switchExclusiveTab('historiales')">
         Historiales Clinicos
       </button>
+      <button class="tab-btn" data-tab="profesionales" onclick="switchExclusiveTab('profesionales')">Profesionales</button>
       <button class="tab-btn" data-tab="nuevo-paciente" onclick="switchExclusiveTab('nuevo-paciente')">
         Nuevo Paciente
       </button>
@@ -273,6 +296,23 @@
       </div>
     </section>
 
+    <section id="exclusive-tab-profesionales" class="tab-section" style="display:none;">
+      <div class="card">
+        <div class="card-header">
+          <div>
+            <h3 class="card-title">Profesionales del establecimiento</h3>
+            <p class="card-subtitle">Personal médico y especialistas registrados en el motor correspondiente.</p>
+          </div>
+          <button class="btn btn-secondary btn-sm" onclick="cargarProfesionales()">Actualizar</button>
+        </div>
+        <div class="table-wrapper">
+          <table>
+            <thead><tr><th>ID</th><th>Nombre</th><th>Especialidad</th><th>Número de colegiado</th></tr></thead>
+            <tbody id="professionalsTableBody"><tr><td colspan="4">Seleccione esta pestaña para cargar profesionales.</td></tr></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
     <!-- PESTAÑA: NUEVO PACIENTE -->
     <section id="exclusive-tab-nuevo-paciente" class="tab-section" style="display: none;">
       <div class="card">
@@ -591,5 +631,6 @@
   </div>
 
   <script src="app.js"></script>
+  <script src="access.js"></script>
 </body>
 </html>
