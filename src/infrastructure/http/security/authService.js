@@ -12,6 +12,8 @@ const SESSION_MS = 8 * 60 * 60 * 1000;
 const sessions = new Map();
 const attempts = new Map();
 const VALID_INSTITUTIONS = new Set(['hospital', 'odontologia', 'laboratorio', 'pediatria']);
+const LOGIN_INSTITUTIONS = new Set([...VALID_INSTITUTIONS, 'admin']);
+const SETUP_PATH = path.join(path.dirname(USERS_PATH), 'admin-setup-code.txt');
 
 function loadUsers() {
   if (!fs.existsSync(USERS_PATH)) return [];
@@ -46,7 +48,7 @@ function authenticate(req, username, password, institutionId) {
     return { error: 'Credenciales incorrectas', status: 401 };
   }
   const cleanName = username.trim().toLowerCase();
-  if (cleanName.length > 80 || password.length > 256 || !VALID_INSTITUTIONS.has(institutionId)) {
+  if (cleanName.length > 80 || password.length > 256 || !LOGIN_INSTITUTIONS.has(institutionId)) {
     return { error: 'Credenciales incorrectas', status: 401 };
   }
   const key = authenticationKey(req, cleanName);
@@ -62,7 +64,7 @@ function authenticate(req, username, password, institutionId) {
     console.error('[Acceso] No se pudo leer el archivo de usuarios:', err.message);
     return { error: 'Acceso temporalmente no disponible', status: 503 };
   }
-  const valid = user && checkPassword(password, user.passwordHash);
+  const valid = user && user.active !== false && checkPassword(password, user.passwordHash);
   if (!valid) {
     const count = previous && previous.until > now ? previous.count + 1 : 1;
     attempts.set(key, { count, until: now + 15 * 60 * 1000 });
@@ -105,7 +107,19 @@ function readSession(req) {
     sessions.delete(sessionKey(token));
     return null;
   }
-  return session;
+  // Una cuenta suspendida pierde inmediatamente las sesiones previas.
+  try {
+    const current = loadUsers().find(u => u.username === session.username &&
+      u.institutionId === session.institutionId && u.active !== false && u.rol === session.rol);
+    if (!current) {
+      sessions.delete(sessionKey(token));
+      return null;
+    }
+    return { username: current.username, nombre: current.nombre, rol: current.rol,
+      institutionId: current.institutionId, expiresAt: session.expiresAt };
+  } catch {
+    return null;
+  }
 }
 
 function endSession(req, res) {
@@ -137,7 +151,114 @@ function requireSession(req, res, next) {
   next();
 }
 
+
+function storeUsers(users) {
+  fs.mkdirSync(path.dirname(USERS_PATH), { recursive: true, mode: 0o700 });
+  const temp = USERS_PATH + '.' + crypto.randomBytes(6).toString('hex') + '.tmp';
+  try {
+    fs.writeFileSync(temp, JSON.stringify({ users }, null, 2) + '\n', { mode: 0o600, flag: 'wx' });
+    fs.renameSync(temp, USERS_PATH);
+  } finally {
+    if (fs.existsSync(temp)) fs.unlinkSync(temp);
+  }
+}
+
+function publicUsers() {
+  return loadUsers().map(({ username, nombre, rol, institutionId, active }) => ({
+    username, nombre, rol, institutionId, active: active !== false
+  }));
+}
+
+function hasAdministrator() {
+  return loadUsers().some(u => u.institutionId === 'admin' && u.rol === 'admin');
+}
+
+function createAccount({ username, nombre, rol, institutionId, password }) {
+  if (typeof username !== 'string' || !/^[a-z0-9._-]{3,80}$/.test(username)) {
+    throw new Error('Usuario inválido: use de 3 a 80 caracteres, letras minúsculas, números, puntos o guiones.');
+  }
+  if (typeof nombre !== 'string' || nombre.trim().length < 3 || nombre.length > 150) {
+    throw new Error('Nombre inválido.');
+  }
+  if (typeof password !== 'string' || password.length < 12 || password.length > 256) {
+    throw new Error('La contraseña debe tener entre 12 y 256 caracteres.');
+  }
+  if (!LOGIN_INSTITUTIONS.has(institutionId) || typeof rol !== 'string') {
+    throw new Error('Institución o rol inválidos.');
+  }
+  if (institutionId === 'admin' && rol !== 'admin') throw new Error('Rol administrativo inválido.');
+  if (institutionId !== 'admin' && rol === 'admin') throw new Error('Rol administrativo no permitido para una institución.');
+  const users = loadUsers();
+  if (users.some(u => u.username === username)) {
+    const err = new Error('El nombre de usuario ya existe. Elija otro.');
+    err.status = 409;
+    throw err;
+  }
+  const account = {
+    username, nombre: nombre.trim(), rol, institutionId, active: true,
+    passwordHash: hashPassword(password)
+  };
+  storeUsers([...users, account]);
+  return { username, nombre: account.nombre, rol, institutionId, active: true };
+}
+
+function setAccountEnabled(username, active) {
+  if (typeof active !== 'boolean') throw new Error('Estado inválido.');
+  const users = loadUsers();
+  const target = users.find(u => u.username === username && u.institutionId !== 'admin');
+  if (!target) {
+    const err = new Error('Cuenta no encontrada.');
+    err.status = 404;
+    throw err;
+  }
+  target.active = active;
+  storeUsers(users);
+  return { username: target.username, institutionId: target.institutionId, active };
+}
+
+function getSetupCodePath() {
+  if (hasAdministrator()) return null;
+  fs.mkdirSync(path.dirname(SETUP_PATH), { recursive: true, mode: 0o700 });
+  if (!fs.existsSync(SETUP_PATH)) {
+    fs.writeFileSync(SETUP_PATH, crypto.randomBytes(24).toString('hex') + '\n', { mode: 0o600, flag: 'wx' });
+  }
+  return SETUP_PATH;
+}
+
+function initialAdministrator({ setupCode, username, nombre, password }) {
+  if (hasAdministrator()) {
+    const err = new Error('El administrador inicial ya existe.');
+    err.status = 403;
+    throw err;
+  }
+  const setupPath = getSetupCodePath();
+  const expected = fs.readFileSync(setupPath, 'utf8').trim();
+  const provided = String(setupCode || '');
+  if (provided.length !== expected.length ||
+      !crypto.timingSafeEqual(Buffer.from(provided), Buffer.from(expected))) {
+    const err = new Error('Código de configuración incorrecto.');
+    err.status = 403;
+    throw err;
+  }
+  const created = createAccount({
+    username: String(username || '').trim().toLowerCase(), nombre,
+    rol: 'admin', institutionId: 'admin', password
+  });
+  fs.unlinkSync(setupPath);
+  return created;
+}
+
+function requireRole(...allowed) {
+  return (req, res, next) => {
+    if (!req.auth || !allowed.includes(req.auth.rol)) {
+      return res.status(403).json({ success: false, error: 'Su rol no autoriza esta operación.' });
+    }
+    next();
+  };
+}
+
 module.exports = {
   USERS_PATH, VALID_INSTITUTIONS, hashPassword, authenticate, startSession, readSession,
-  endSession, requireSession
+  endSession, requireSession, requireRole, publicUsers, hasAdministrator,
+  createAccount, setAccountEnabled, getSetupCodePath, initialAdministrator
 };
