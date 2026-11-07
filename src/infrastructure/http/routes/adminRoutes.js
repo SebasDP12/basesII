@@ -1,8 +1,6 @@
 'use strict';
 const express = require('express');
 const router = express.Router();
-const fs = require('fs');
-const path = require('path');
 const connections = require('../../database/connectionManager');
 const security = require('../security/authService');
 
@@ -14,14 +12,6 @@ const ALLOWED_ROLES = {
 };
 const PROFESSIONAL_ROLES = new Set(['medico', 'odontologo', 'laboratorista', 'pediatra']);
 const requireAdmin = [security.requireSession, security.requireRole('admin')];
-const localOnly = (req, res, next) => {
-  // La primera configuración administrativa solo acepta conexiones del mismo host.
-  const ip = (req.socket.remoteAddress || '').replace(/^::ffff:/, '');
-  if (!['127.0.0.1', '::1'].includes(ip)) {
-    return res.status(403).json({ success: false, error: 'Configuración inicial solo disponible desde localhost del servidor.' });
-  }
-  next();
-};
 
 router.get('/setup-status', (req, res) => {
   try {
@@ -32,7 +22,7 @@ router.get('/setup-status', (req, res) => {
   }
 });
 
-router.post('/setup', localOnly, (req, res) => {
+router.post('/setup', (req, res) => {
   try {
     if (!security.hasAdministrator()) {
       const user = security.initialAdministrator(req.body || {});
