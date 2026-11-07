@@ -21,6 +21,7 @@
 
     <div style="display: flex; align-items: center; gap: 0.75rem;">
       <button class="btn btn-secondary btn-sm" onclick="irAlPortal()">Portal General</button>
+      <a href="/admin" class="btn btn-secondary btn-sm">Administración</a>
       <button class="btn btn-secondary btn-sm" onclick="verDocumentoComparativo()">Documento Comparativo</button>
       <div id="activeEngineBadge" class="engine-badge engine-postgres" style="display: none;">
         PostgreSQL :5432
@@ -60,7 +61,7 @@
     <div class="portal-hero">
       <h2>Portal General de Establecimientos Médicos</h2>
       <p>
-        Seleccióne el establecimiento al que desea ingresar. Cada institución cuenta con una pantalla de gestión exclusiva
+        Seleccione el establecimiento al que desea ingresar. Cada institución cuenta con una pantalla de gestión exclusiva
         y persiste sus datos de forma independiente en su propio motor de base de datos.
       </p>
     </div>
@@ -245,7 +246,7 @@
       </div>
       <div class="metric-card">
         <div class="metric-val" id="metricTotalConsultas">-</div>
-        <div class="metric-lbl">Atenciónes Realizadas</div>
+        <div class="metric-lbl">Atenciones Realizadas</div>
       </div>
     </div>
 
@@ -284,7 +285,7 @@
                 <th>Contacto</th>
                 <th>Detalles Institución</th>
                 <th>Estado</th>
-                <th style="text-align: right;">Acciónes</th>
+                <th style="text-align: right;">Acciones</th>
               </tr>
             </thead>
             <tbody id="patientsTableBody">
@@ -309,7 +310,7 @@
         <div class="table-wrapper">
           <table>
             <thead><tr><th>ID</th><th>Nombre</th><th>Especialidad</th><th>Número de colegiado</th></tr></thead>
-            <tbody id="professionalsTableBody"><tr><td colspan="4">Seleccióne esta pestaña para cargar profesionales.</td></tr></tbody>
+            <tbody id="professionalsTableBody"><tr><td colspan="4">Seleccione esta pestaña para cargar profesionales.</td></tr></tbody>
           </table>
         </div>
       </div>
@@ -411,7 +412,7 @@
             <div class="form-group full-width">
               <label class="form-label">Selecciónar Paciente *</label>
               <select id="eventPatientSelect" class="form-select" required>
-                <option value="">Seleccióne un paciente de la lista...</option>
+                <option value="">Seleccione un paciente de la lista...</option>
               </select>
             </div>
 
