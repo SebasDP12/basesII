@@ -3,7 +3,7 @@ const router = express.Router();
 const medicalRecordService = require('../../../domain/services/MedicalRecordService');
 
 function getInstitution(req) {
-  return req.headers['x-institution-id'] || req.query.institutionId || req.body.institutionId || 'hospital';
+  return req.auth.institutionId;
 }
 
 // Obtener historial clínico completo del paciente
