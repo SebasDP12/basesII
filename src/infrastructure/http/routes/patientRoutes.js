@@ -4,7 +4,7 @@ const medicalRecordService = require('../../../domain/services/MedicalRecordServ
 
 // Middleware para extraer la institución activa del header o query param
 function getInstitution(req) {
-  return req.headers['x-institution-id'] || req.query.institutionId || req.body.institutionId || 'hospital';
+  return req.auth.institutionId;
 }
 
 // Listar pacientes
