@@ -2,8 +2,8 @@
 // Complemento de interfaz: no reemplaza la lógica de expedientes existente.
 let pendingInstitution = null;
 let accessUser = null;
-const originalEnterInstitution = entrarAEstablecimiento;
-const originalGoPortal = irAlPortal;
+const originalEnterInstitution = window.entrarAEstablecimiento;
+const originalGoPortal = window.irAlPortal;
 
 function showAccess(institutionId) {
   if (!INSTITUTION_CONFIG[institutionId]) return;
@@ -20,7 +20,7 @@ function showAccess(institutionId) {
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-async function entrarAEstablecimiento(institutionId) {
+window.entrarAEstablecimiento = async function (institutionId) {
   if (!INSTITUTION_CONFIG[institutionId]) return;
   // El cambio de institución nunca reutiliza una sesión de otra.
   try {
@@ -40,7 +40,7 @@ async function entrarAEstablecimiento(institutionId) {
   showAccess(institutionId);
 }
 
-function irAlPortal() {
+window.irAlPortal = function () {
   document.getElementById('view-access').style.display = 'none';
   originalGoPortal();
 }
