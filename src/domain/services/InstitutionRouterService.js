@@ -48,13 +48,16 @@ class InstitutionRouterService {
    * Registra una traza de consulta para inspección pedagógica y técnica
    */
   logQuery(institutionId, engine, operation, rawQuery, executionTimeMs = 0) {
+    const sanitize = (value) => String(value ?? '')
+      .replace(/(password|passwd|contrasena|contraseña|token|authorization|secret|api[_-]?key)\\s*[:=]\\s*([\\"']?)[^,\\s;}]+/gi, '$1=[OCULTO]')
+      .replace(/(postgres(?:ql)?:\\/\\/|mysql:\\/\\/|mongodb(?:\\+srv)?:\\/\\/)[^@\\s]+@/gi, '$1[OCULTO]@');
     const logEntry = {
       id: Date.now() + Math.random().toString(36).substring(2, 7),
       timestamp: new Date().toISOString(),
       institutionId,
       engine,
       operation,
-      rawQuery: typeof rawQuery === 'string' ? rawQuery : JSON.stringify(rawQuery, null, 2),
+      rawQuery: sanitize(typeof rawQuery === 'string' ? rawQuery : JSON.stringify(rawQuery, null, 2)),
       executionTimeMs
     };
     this.queryLogs.unshift(logEntry);
