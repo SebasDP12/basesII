@@ -14,7 +14,8 @@ const patientRoutes = require('./routes/patientRoutes');
 const clinicalRoutes = require('./routes/clinicalRoutes');
 const systemRoutes = require('./routes/systemRoutes');
 const professionalRoutes = require('./routes/professionalRoutes');
-const { requireSession } = require('./security/authService');
+const { requireSession, getSetupCodePath } = require('./security/authService');
+const adminRoutes = require('./routes/adminRoutes');
 const { seedPostgres, seedMySQL, seedMongo, seedFirestore } = require('../database/seeder');
 
 const app = express();
@@ -53,10 +54,13 @@ console.log('[OK] Adaptador Firestore registrado -> Centro Medico Pediatrico');
 
 // Rutas de API
 app.use('/api/auth', authRoutes);
+app.use('/api/admin', adminRoutes);
 app.use('/api/patients', requireSession, patientRoutes);
 app.use('/api/clinical', requireSession, clinicalRoutes);
 app.use('/api/system', systemRoutes);
 app.use('/api/professionals', requireSession, professionalRoutes);
+// /admin no debe salir de la ruta comodín de SPA; sirve su vista específica.
+app.get(['/admin', '/admin/'], (req, res) => res.sendFile(path.join(__dirname, '../../../public/admin.html')));
 
 // Ruta de captura para la SPA (Single Page Application - compatible con Express 5)
 app.use((req, res, next) => {
@@ -79,6 +83,12 @@ app.use((err, req, res, next) => {
 const server = app.listen(PORT, async () => {
   console.log(`\nServidor de Historiales Clinicos escuchando en http://localhost:${PORT}`);
   console.log(`Arquitectura Hexagonal activa con soporte a 4 motores de BD.\n`);
+  try {
+    const setupCodeFile = getSetupCodePath();
+    if (setupCodeFile) console.log('[ADMIN] Configuración inicial: lea el código único en ' + setupCodeFile);
+  } catch (err) {
+    console.error('[ADMIN] No se pudo preparar el código de instalación:', err.message);
+  }
 
   // Intentar inicialización suave de esquemas en segundo plano si los contenedores están listos
   setTimeout(async () => {
