@@ -5,6 +5,23 @@ let accessUser = null;
 const originalEnterInstitution = window.entrarAEstablecimiento;
 const originalGoPortal = window.irAlPortal;
 
+function aplicarPermisosVista(rol) {
+  const canWrite = ['medico','odontologo','pediatra','laboratorista','recepcion','enfermeria'].includes(rol);
+  const canAttend = ['medico','odontologo','pediatra','laboratorista','enfermeria'].includes(rol);
+  const canArchive = ['medico','odontologo','pediatra'].includes(rol);
+  const canInspect = ['medico','odontologo','pediatra','laboratorista'].includes(rol);
+  const entries = {
+    'nuevo-paciente': canWrite,
+    'atencion': canAttend,
+    'bajas': canArchive,
+    'inspector': canInspect
+  };
+  for (const [tab, allowed] of Object.entries(entries)) {
+    const button = document.querySelector('#view-establishment .tab-btn[data-tab="' + tab + '"]');
+    if (button) button.style.display = allowed ? '' : 'none';
+  }
+}
+
 function showAccess(institutionId) {
   if (!INSTITUTION_CONFIG[institutionId]) return;
   pendingInstitution = institutionId;
@@ -30,6 +47,7 @@ window.entrarAEstablecimiento = async function (institutionId) {
       accessUser = result.user;
       document.getElementById('view-access').style.display = 'none';
       originalEnterInstitution(institutionId);
+      aplicarPermisosVista(result.user.rol);
       document.getElementById('exclusiveSubtitle').textContent =
         INSTITUTION_CONFIG[institutionId].subtitle + ' | Sesión: ' + result.user.nombre;
       return;
