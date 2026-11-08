@@ -124,6 +124,7 @@ function switchExclusiveTab(tabId) {
 
   const sectionMap = {
     'historiales': 'exclusive-tab-historiales',
+    'profesionales': 'exclusive-tab-profesionales',
     'nuevo-paciente': 'exclusive-tab-nuevo-paciente',
     'atencion': 'exclusive-tab-atencion',
     'bajas': 'exclusive-tab-bajas',
@@ -138,7 +139,9 @@ function switchExclusiveTab(tabId) {
   const activeSec = document.getElementById(sectionMap[tabId]);
   if (activeSec) activeSec.style.display = 'block';
 
-  if (tabId === 'atencion') {
+  if (tabId === 'profesionales') {
+    cargarProfesionales();
+  } else if (tabId === 'atencion') {
     poblarSelectPacientes();
   } else if (tabId === 'bajas') {
     cargarPacientesBajas();

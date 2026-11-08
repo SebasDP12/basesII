@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SaludRed | Administración</title>
+<link rel="stylesheet" href="/styles.css"><link rel="stylesheet" href="/access.css">
+<style>
+.admin-wrap{max-width:1080px;margin:2rem auto;padding:0 1rem}
+.admin-card{background:white;border:1px solid #e2e8f0;border-radius:12px;padding:1.4rem;margin:1.4rem 0}
+.admin-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem}
+.admin-card h2{margin-bottom:1rem}.admin-card label{display:block;font-weight:600;margin-bottom:.25rem}
+.admin-card input,.admin-card select{width:100%;padding:.6rem;border:1px solid #cbd5e1;border-radius:6px}
+.admin-card button{margin-top:.7rem}.notice{margin:1rem 0;color:#334155}
+.err{color:#b91c1c}.hidden{display:none}
+table{width:100%;border-collapse:collapse}th,td{padding:.7rem;border-bottom:1px solid #e2e8f0;text-align:left}
+</style></head><body>
+<header class="navbar"><div class="brand-text"><h1>SaludRed — Administración</h1><p>Usuarios, profesionales y permisos por institución</p></div>
+<a href="/" class="btn btn-secondary btn-sm">Volver al portal</a></header>
+<main class="admin-wrap">
+<section id="setupPanel" class="admin-card hidden">
+<h2>Configuración inicial del administrador</h2>
+<p>Para evitar que cualquier visitante cree un administrador, primero necesitas el código de instalación guardado solo en el servidor, dentro de <code>security/admin-setup-code.txt</code>.</p>
+<form id="setupForm" class="admin-grid">
+<div><label for="setupCode">Código único de configuración</label><input id="setupCode" type="password" required autocomplete="off"></div>
+<div><label for="setupUsername">Usuario administrador</label><input id="setupUsername" required pattern="[a-z0-9._-]{3,80}"></div>
+<div><label for="setupName">Nombre completo</label><input id="setupName" required minlength="3"></div>
+<div><label for="setupPassword">Contraseña (mínimo 12 caracteres)</label><input id="setupPassword" type="password" required minlength="12" autocomplete="new-password"></div>
+<div><button type="submit" class="btn btn-primary">Crear administrador inicial</button></div>
+</form>
+<p id="setupMessage" class="notice" role="status"></p>
+</section>
+<section id="loginPanel" class="admin-card hidden">
+<h2>Iniciar sesión como administrador</h2>
+<form id="loginForm" class="admin-grid">
+<div><label for="loginUsername">Usuario</label><input id="loginUsername" autocomplete="username" required></div>
+<div><label for="loginPassword">Contraseña</label><input id="loginPassword" type="password" autocomplete="current-password" required></div>
+<div><button type="submit" class="btn btn-primary">Ingresar al panel</button></div>
+</form><p id="loginMessage" class="notice" role="status"></p>
+</section>
+<div id="dashboard" class="hidden">
+<section class="admin-card"><div style="display:flex;justify-content:space-between;gap:1rem;align-items:center"><h2>Panel de administración</h2><button id="logoutBtn" type="button" class="btn btn-secondary">Cerrar sesión</button></div>
+<p>Da de alta personal por establecimiento. Las contraseñas se guardan como hash y jamás se muestran aquí ni en el inspector de consultas.</p></section>
+<section class="admin-card"><h2>Registrar profesional o personal</h2>
+<form id="createForm">
+<div class="admin-grid">
+<div><label for="newInstitution">Institución</label><select id="newInstitution" required>
+<option value="hospital">Hospital General (PostgreSQL)</option>
+<option value="odontologia">Clínica Odontológica (MySQL)</option>
+<option value="laboratorio">Laboratorio Clínico (MongoDB)</option>
+<option value="pediatria">Centro Médico Pediátrico (Firestore)</option>
+</select></div>
+<div><label for="newRole">Rol</label><select id="newRole" required></select></div>
+<div><label for="newUsername">Nombre de usuario</label><input id="newUsername" required pattern="[a-z0-9._-]{3,80}"></div>
+<div><label for="newName">Nombre</label><input id="newName" required maxlength="80"></div>
+<div><label for="newSurname">Apellido</label><input id="newSurname" required maxlength="80"></div>
+<div class="medicalField"><label for="newSpecialty">Especialidad</label><input id="newSpecialty" maxlength="100"></div>
+<div class="medicalField"><label for="newLicense">Número de colegiado</label><input id="newLicense" maxlength="30"></div>
+<div><label for="newPhone">Teléfono</label><input id="newPhone" maxlength="20"></div>
+<div><label for="newPassword">Contraseña inicial (12+ caracteres)</label><input id="newPassword" type="password" required minlength="12" autocomplete="new-password"></div>
+</div><button type="submit" class="btn btn-primary">Registrar cuenta</button></form>
+<p id="createMessage" class="notice" role="status"></p>
+</section>
+<section class="admin-card"><h2>Cuentas registradas</h2><p>Desactivar una cuenta impide el acceso sin borrar expedientes ni registros profesionales.</p>
+<div style="overflow-x:auto"><table><thead><tr><th>Usuario</th><th>Nombre</th><th>Institución</th><th>Rol</th><th>Estado</th><th>Acción</th></tr></thead><tbody id="userRows"></tbody></table></div></section>
+</div></main><script src="/admin.js"></script></body></html>

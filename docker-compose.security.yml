@@ -1,0 +1,6 @@
+# Añadir con -f, sin modificar docker-compose.yml ni las bases existentes.
+# Mantiene el archivo de hashes fuera de la imagen y persiste tras recrear la app.
+services:
+  app:
+    volumes:
+      - ./security:/app/security

@@ -2,3 +2,9 @@ node_modules/
 .DS_Store
 *.log
 
+
+# Credenciales locales, sesiones y copias de seguridad
+.env
+.env.local
+security/
+*.bak

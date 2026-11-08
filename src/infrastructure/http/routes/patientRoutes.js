@@ -1,10 +1,13 @@
 const express = require('express');
 const router = express.Router();
 const medicalRecordService = require('../../../domain/services/MedicalRecordService');
+const { requireRole } = require('../security/authService');
+const canWrite = requireRole('medico','odontologo','pediatra','laboratorista','recepcion','enfermeria');
+const canArchive = requireRole('medico','odontologo','pediatra');
 
 // Middleware para extraer la institución activa del header o query param
 function getInstitution(req) {
-  return req.headers['x-institution-id'] || req.query.institutionId || req.body.institutionId || 'hospital';
+  return req.auth.institutionId;
 }
 
 // Listar pacientes
@@ -36,7 +39,7 @@ router.get('/:id', async (req, res) => {
 });
 
 // Crear nuevo paciente (Nuevo Historial Clínico)
-router.post('/', async (req, res) => {
+router.post('/', canWrite, async (req, res) => {
   try {
     const institutionId = getInstitution(req);
     const newPatient = await medicalRecordService.registerNewPatient(institutionId, req.body);
@@ -52,7 +55,7 @@ router.post('/', async (req, res) => {
 });
 
 // Actualizar datos de paciente
-router.put('/:id', async (req, res) => {
+router.put('/:id', canWrite, async (req, res) => {
   try {
     const institutionId = getInstitution(req);
     const updated = await medicalRecordService.updatePatientInfo(institutionId, req.params.id, req.body);
@@ -68,7 +71,7 @@ router.put('/:id', async (req, res) => {
 });
 
 // Dar de baja / Archivar historial clínico
-router.post('/:id/archive', async (req, res) => {
+router.post('/:id/archive', canArchive, async (req, res) => {
   try {
     const institutionId = getInstitution(req);
     const { motivo } = req.body;
@@ -85,7 +88,7 @@ router.post('/:id/archive', async (req, res) => {
 });
 
 // Reactivar historial clínico
-router.post('/:id/restore', async (req, res) => {
+router.post('/:id/restore', canArchive, async (req, res) => {
   try {
     const institutionId = getInstitution(req);
     const restored = await medicalRecordService.restorePatientRecord(institutionId, req.params.id);

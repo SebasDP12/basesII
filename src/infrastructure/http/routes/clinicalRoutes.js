@@ -1,9 +1,10 @@
 const express = require('express');
 const router = express.Router();
 const medicalRecordService = require('../../../domain/services/MedicalRecordService');
+const { requireRole } = require('../security/authService');
 
 function getInstitution(req) {
-  return req.headers['x-institution-id'] || req.query.institutionId || req.body.institutionId || 'hospital';
+  return req.auth.institutionId;
 }
 
 // Obtener historial clínico completo del paciente
@@ -21,7 +22,7 @@ router.get('/patients/:id/history', async (req, res) => {
 });
 
 // Registrar nuevo evento clínico (Consulta + Diagnóstico + Tratamiento / Procedimiento / Examen / Vacuna)
-router.post('/events', async (req, res) => {
+router.post('/events', requireRole('medico','odontologo','pediatra','laboratorista','enfermeria'), async (req, res) => {
   try {
     const institutionId = getInstitution(req);
     const result = await medicalRecordService.recordMedicalEvent(institutionId, req.body);

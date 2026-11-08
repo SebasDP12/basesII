@@ -3,8 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SaludRed - Sistema Clinico Multi-Motor</title>
+  <title>SaludRed - Sistema Clínico Multi-Motor</title>
   <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="access.css">
 </head>
 <body>
 
@@ -14,12 +15,13 @@
       <div class="brand-logo-box">SR</div>
       <div class="brand-text">
         <h1>SaludRed Multi-Motor</h1>
-        <p>Red de Historiales Clinicos - Arquitectura Hexagonal</p>
+        <p>Red de Historiales Clínicos - Arquitectura Hexagonal</p>
       </div>
     </div>
 
     <div style="display: flex; align-items: center; gap: 0.75rem;">
       <button class="btn btn-secondary btn-sm" onclick="irAlPortal()">Portal General</button>
+      <a href="/admin" class="btn btn-secondary btn-sm">Administración</a>
       <button class="btn btn-secondary btn-sm" onclick="verDocumentoComparativo()">Documento Comparativo</button>
       <div id="activeEngineBadge" class="engine-badge engine-postgres" style="display: none;">
         PostgreSQL :5432
@@ -36,7 +38,7 @@
       </div>
       <div class="engine-status-item">
         <span class="status-dot online"></span>
-        <strong>MySQL (Odontologia):</strong> <span id="status-mysql">Verificando...</span>
+        <strong>MySQL (Odontología):</strong> <span id="status-mysql">Verificando...</span>
       </div>
       <div class="engine-status-item">
         <span class="status-dot online"></span>
@@ -44,7 +46,7 @@
       </div>
       <div class="engine-status-item">
         <span class="status-dot online"></span>
-        <strong>Firebase (Pediatria):</strong> <span id="status-firebase">Verificando...</span>
+        <strong>Firebase (Pediatría):</strong> <span id="status-firebase">Verificando...</span>
       </div>
     </div>
     <div>
@@ -57,9 +59,9 @@
   <!-- =============================================================== -->
   <main class="main-content" id="view-portal">
     <div class="portal-hero">
-      <h2>Portal General de Establecimientos Medicos</h2>
+      <h2>Portal General de Establecimientos Médicos</h2>
       <p>
-        Seleccione el establecimiento al que desea ingresar. Cada institucion cuenta con una pantalla de gestion exclusiva
+        Seleccione el establecimiento al que desea ingresar. Cada institución cuenta con una pantalla de gestión exclusiva
         y persiste sus datos de forma independiente en su propio motor de base de datos.
       </p>
     </div>
@@ -70,14 +72,14 @@
         <div>
           <span class="card-top-tag">PostgreSQL 16 - Puerto 5432</span>
           <h3 class="est-title">Hospital General</h3>
-          <div class="est-engine-info">Atencion Hospitalaria e Internacion</div>
+          <div class="est-engine-info">Atención Hospitalaria e Internacion</div>
           <p class="est-desc">
-            Gestion de alta complejidad clinica. Requiere control estricto sobre citas, diagnosticos y tratamientos farmacologicos con integridad transaccional ACID fuerte.
+            Gestión de alta complejidad clinica. Requiere control estricto sobre citas, diagnósticos y tratamientos farmacologicos con integridad transaccional ACID fuerte.
           </p>
           <ul class="est-features-list">
             <li>Integridad transaccional ACID completa</li>
-            <li>Diagnosticos con clasificacion medica</li>
-            <li>Tratamientos y prescripcion hospitalaria</li>
+            <li>Diagnósticos con clasificacion medica</li>
+            <li>Tratamientos y prescripción hospitalaria</li>
             <li>Control de tipo de sangre y antecedentes</li>
           </ul>
         </div>
@@ -92,21 +94,21 @@
       <div class="establishment-card card-odontologia">
         <div>
           <span class="card-top-tag">MySQL 8.0 - Puerto 3307</span>
-          <h3 class="est-title">Clinica Odontologica</h3>
-          <div class="est-engine-info">Atencion Dental y Procedimientos</div>
+          <h3 class="est-title">Clínica Odontológica</h3>
+          <div class="est-engine-info">Atención Dental y Procedimientos</div>
           <p class="est-desc">
-            Modelo relacional normalizado y agil utilizado principalmente por secretarias y odontologos para registro rapido de citas, procedimientos por pieza dental y recetas.
+            Modelo relacional normalizado y agil utilizado principalmente por secretarias y odontologos para registro rápido de citas, procedimientos por pieza dental y recetas.
           </p>
           <ul class="est-features-list">
             <li>Motor InnoDB con bloqueos por fila</li>
             <li>Registro de procedimientos y piezas dentales</li>
             <li>Facturacion y costos odontologicos</li>
-            <li>Prescripcion de analgesicos y farmacos dentales</li>
+            <li>Prescripción de analgesicos y farmacos dentales</li>
           </ul>
         </div>
         <div>
           <button class="btn-enter" onclick="entrarAEstablecimiento('odontologia')">
-            Ingresar a Clinica Odontologica &rarr;
+            Ingresar a Clínica Odontológica &rarr;
           </button>
         </div>
       </div>
@@ -115,8 +117,8 @@
       <div class="establishment-card card-laboratorio">
         <div>
           <span class="card-top-tag">MongoDB 7.0 - Puerto 27017</span>
-          <h3 class="est-title">Laboratorio Clinico</h3>
-          <div class="est-engine-info">Analisis y Procesamiento de Pruebas</div>
+          <h3 class="est-title">Laboratorio Clínico</h3>
+          <div class="est-engine-info">Análisis y Procesamiento de Pruebas</div>
           <p class="est-desc">
             Procesamiento de examenes de estructura heterogenea (hematologias, orina, perfiles lipidicos). Embebe parametros dentro de cada orden para maxima velocidad analitica.
           </p>
@@ -129,7 +131,7 @@
         </div>
         <div>
           <button class="btn-enter" onclick="entrarAEstablecimiento('laboratorio')">
-            Ingresar a Laboratorio Clinico &rarr;
+            Ingresar a Laboratorio Clínico &rarr;
           </button>
         </div>
       </div>
@@ -138,8 +140,8 @@
       <div class="establishment-card card-pediatria">
         <div>
           <span class="card-top-tag">Firebase Firestore - Puerto 8080</span>
-          <h3 class="est-title">Centro Medico Pediatrico</h3>
-          <div class="est-engine-info">Control Infantil y Vacunacion</div>
+          <h3 class="est-title">Centro Médico Pediatrico</h3>
+          <div class="est-engine-info">Control Infantil y Vacunación</div>
           <p class="est-desc">
             Consultas frecuentes y de corta duracion para seguimiento del desarrollo del menor. Asocia a los tutores legales de forma embebida y organiza curvas de peso y vacunas.
           </p>
@@ -157,6 +159,28 @@
         </div>
       </div>
     </div>
+  </main>
+
+  <!-- Pantalla intermedia: credenciales verificadas en el servidor -->
+  <main class="main-content" id="view-access" style="display:none;">
+    <section class="access-panel card" aria-labelledby="accessHeading">
+      <button type="button" class="btn btn-secondary btn-sm" onclick="irAlPortal()">← Volver al portal</button>
+      <h2 id="accessHeading">Acceso al establecimiento</h2>
+      <p id="accessInstitutionName">Introduzca las credenciales autorizadas.</p>
+      <form id="accessForm" autocomplete="on">
+        <div class="form-group">
+          <label class="form-label" for="accessUser">Usuario</label>
+          <input class="form-input" id="accessUser" name="username" autocomplete="username" required maxlength="80">
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="accessPassword">Contraseña</label>
+          <input class="form-input" id="accessPassword" name="password" type="password" autocomplete="current-password" required>
+        </div>
+        <p id="accessError" class="access-error" role="alert" aria-live="polite"></p>
+        <button type="submit" class="btn btn-primary">Verificar e ingresar</button>
+      </form>
+      <p class="access-hint">El acceso se valida contra el archivo de usuarios del servidor. Las contraseñas no se envían al inspector de consultas.</p>
+    </section>
   </main>
 
   <!-- =============================================================== -->
@@ -179,9 +203,9 @@
         <span style="font-size: 0.8rem; color: #64748b; font-weight: 600;">Cambiar Establecimiento:</span>
         <select id="exclusiveSwitchSelect" class="select-filter" onchange="entrarAEstablecimiento(this.value)">
           <option value="hospital">Hospital General (PostgreSQL)</option>
-          <option value="odontologia">Clinica Odontologica (MySQL)</option>
-          <option value="laboratorio">Laboratorio Clinico (MongoDB)</option>
-          <option value="pediatria">Centro Medico Pediatrico (Firebase)</option>
+          <option value="odontologia">Clínica Odontológica (MySQL)</option>
+          <option value="laboratorio">Laboratorio Clínico (MongoDB)</option>
+          <option value="pediatria">Centro Médico Pediatrico (Firebase)</option>
         </select>
       </div>
     </div>
@@ -189,13 +213,14 @@
     <!-- Pestañas Exclusivas del Establecimiento -->
     <nav class="tabs-nav" style="border-radius: 8px 8px 0 0; margin-bottom: 1.5rem; border: 1px solid var(--border);">
       <button class="tab-btn active" data-tab="historiales" onclick="switchExclusiveTab('historiales')">
-        Historiales Clinicos
+        Historiales Clínicos
       </button>
+      <button class="tab-btn" data-tab="profesionales" onclick="switchExclusiveTab('profesionales')">Profesionales</button>
       <button class="tab-btn" data-tab="nuevo-paciente" onclick="switchExclusiveTab('nuevo-paciente')">
         Nuevo Paciente
       </button>
       <button class="tab-btn" data-tab="atencion" onclick="switchExclusiveTab('atencion')">
-        Registrar Atencion Medica
+        Registrar Atención Medica
       </button>
       <button class="tab-btn" data-tab="bajas" onclick="switchExclusiveTab('bajas')">
         Bajas y Archivo
@@ -231,7 +256,7 @@
         <div class="card-header">
           <div>
             <h3 class="card-title">Pacientes del Establecimiento</h3>
-            <p class="card-subtitle">Registros almacenados en el motor asignado a esta institucion</p>
+            <p class="card-subtitle">Registros almacenados en el motor asignado a esta institución</p>
           </div>
           <div>
             <button class="btn btn-primary" onclick="switchExclusiveTab('nuevo-paciente')">
@@ -258,7 +283,7 @@
                 <th>Nombre Completo</th>
                 <th>Fecha Nac. / Edad</th>
                 <th>Contacto</th>
-                <th>Detalles Institucion</th>
+                <th>Detalles Institución</th>
                 <th>Estado</th>
                 <th style="text-align: right;">Acciones</th>
               </tr>
@@ -273,12 +298,29 @@
       </div>
     </section>
 
+    <section id="exclusive-tab-profesionales" class="tab-section" style="display:none;">
+      <div class="card">
+        <div class="card-header">
+          <div>
+            <h3 class="card-title">Profesionales del establecimiento</h3>
+            <p class="card-subtitle">Personal médico y especialistas registrados en el motor correspondiente.</p>
+          </div>
+          <button class="btn btn-secondary btn-sm" onclick="cargarProfesionales()">Actualizar</button>
+        </div>
+        <div class="table-wrapper">
+          <table>
+            <thead><tr><th>ID</th><th>Nombre</th><th>Especialidad</th><th>Número de colegiado</th></tr></thead>
+            <tbody id="professionalsTableBody"><tr><td colspan="4">Seleccione esta pestaña para cargar profesionales.</td></tr></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
     <!-- PESTAÑA: NUEVO PACIENTE -->
     <section id="exclusive-tab-nuevo-paciente" class="tab-section" style="display: none;">
       <div class="card">
         <div class="card-header">
           <div>
-            <h3 class="card-title">Generar Nuevo Historial Clinico</h3>
+            <h3 class="card-title">Generar Nuevo Historial Clínico</h3>
             <p class="card-subtitle">Alta de paciente en <span id="newPatientInstName">Hospital General</span></p>
           </div>
         </div>
@@ -306,15 +348,15 @@
               </select>
             </div>
             <div class="form-group">
-              <label class="form-label">Telefono de Contacto</label>
+              <label class="form-label">Teléfono de Contacto</label>
               <input type="tel" id="pTelefono" class="form-input" placeholder="Ej. 5551-2345">
             </div>
             <div class="form-group">
-              <label class="form-label">Correo Electronico</label>
+              <label class="form-label">Correo Electrónico</label>
               <input type="email" id="pCorreo" class="form-input" placeholder="paciente@correo.com">
             </div>
             <div class="form-group full-width">
-              <label class="form-label">Direccion de Residencia</label>
+              <label class="form-label">Dirección de Residencia</label>
               <input type="text" id="pDireccion" class="form-input" placeholder="Zona o direccion completa">
             </div>
 
@@ -333,7 +375,7 @@
 
             <!-- Campos condicionales Pediatria -->
             <div class="form-group" id="fieldTutorNombre" style="display: none;">
-              <label class="form-label">Nombre del Tutor Legal (Pediatria)</label>
+              <label class="form-label">Nombre del Tutor Legal (Pediatría)</label>
               <input type="text" id="pTutorNombre" class="form-input" placeholder="Ej. Claudia de Leon (Madre)">
             </div>
             <div class="form-group" id="fieldTutorParentesco" style="display: none;">
@@ -348,7 +390,7 @@
           </div>
 
           <div style="margin-top: 1.5rem; display: flex; gap: 0.75rem;">
-            <button type="submit" class="btn btn-primary">Guardar Historial Clinico</button>
+            <button type="submit" class="btn btn-primary">Guardar Historial Clínico</button>
             <button type="button" class="btn btn-secondary" onclick="switchExclusiveTab('historiales')">Cancelar</button>
           </div>
         </form>
@@ -360,22 +402,22 @@
       <div class="card">
         <div class="card-header">
           <div>
-            <h3 class="card-title">Registrar Atencion y Actualizar Historial</h3>
-            <p class="card-subtitle">Registra consulta, diagnostico y prescripcion o procedimiento en este establecimiento</p>
+            <h3 class="card-title">Registrar Atención y Actualizar Historial</h3>
+            <p class="card-subtitle">Registra consulta, diagnostico y prescripción o procedimiento en este establecimiento</p>
           </div>
         </div>
 
         <form id="medicalEventForm" onsubmit="guardarAtencionMedica(event)">
           <div class="form-grid">
             <div class="form-group full-width">
-              <label class="form-label">Seleccionar Paciente *</label>
+              <label class="form-label">Selecciónar Paciente *</label>
               <select id="eventPatientSelect" class="form-select" required>
                 <option value="">Seleccione un paciente de la lista...</option>
               </select>
             </div>
 
             <div class="form-group">
-              <label class="form-label">Fecha de Atencion *</label>
+              <label class="form-label">Fecha de Atención *</label>
               <input type="date" id="eventFecha" class="form-input" required>
             </div>
 
@@ -385,12 +427,12 @@
             </div>
 
             <div class="form-group full-width">
-              <label class="form-label">Motivo de Atencion / Consulta *</label>
+              <label class="form-label">Motivo de Atención / Consulta *</label>
               <input type="text" id="eventMotivo" class="form-input" required placeholder="Motivo de la visita o solicitud medica...">
             </div>
 
             <div class="form-group full-width">
-              <label class="form-label">Diagnostico Clinico *</label>
+              <label class="form-label">Diagnostico Clínico *</label>
               <textarea id="eventDiagnostico" class="form-textarea" rows="2" required placeholder="Descripcion del diagnostico emitido..."></textarea>
             </div>
 
@@ -455,7 +497,7 @@
           </div>
 
           <div style="margin-top: 1.5rem; display: flex; gap: 0.75rem;">
-            <button type="submit" class="btn btn-primary">Registrar Atencion</button>
+            <button type="submit" class="btn btn-primary">Registrar Atención</button>
             <button type="button" class="btn btn-secondary" onclick="switchExclusiveTab('historiales')">Cancelar</button>
           </div>
         </form>
@@ -468,7 +510,7 @@
         <div class="card-header">
           <div>
             <h3 class="card-title">Archivo y Bajas de Historiales</h3>
-            <p class="card-subtitle">Gestion de bajas por traslado, fallecimiento o causas administrativas</p>
+            <p class="card-subtitle">Gestión de bajas por traslado, fallecimiento o causas administrativas</p>
           </div>
         </div>
 
@@ -484,7 +526,7 @@
                 <th>Paciente</th>
                 <th>Fecha de Baja</th>
                 <th>Motivo de Baja / Archivo</th>
-                <th>Accion</th>
+                <th>Acción</th>
               </tr>
             </thead>
             <tbody id="archivedTableBody">
@@ -525,8 +567,8 @@
     <div class="modal-box" style="max-width: 900px;">
       <div class="modal-header">
         <div>
-          <h2 class="card-title">Documento Comparativo de Asignacion de Motores</h2>
-          <p class="card-subtitle">Justificaciones tecnicas, consistencia transaccional y seguridad</p>
+          <h2 class="card-title">Documento Comparativo de Asignación de Motores</h2>
+          <p class="card-subtitle">Justificaciónes tecnicas, consistencia transaccional y seguridad</p>
         </div>
         <button class="modal-close" onclick="cerrarModal('comparativeModal')">&times;</button>
       </div>
@@ -542,7 +584,7 @@
     <div class="modal-box">
       <div class="modal-header">
         <div>
-          <h2 class="card-title" id="modalPatientName">Historial Clinico</h2>
+          <h2 class="card-title" id="modalPatientName">Historial Clínico</h2>
           <p class="card-subtitle" id="modalPatientInfo">Cargando...</p>
         </div>
         <button class="modal-close" onclick="cerrarModal('historyModal')">&times;</button>
@@ -570,7 +612,7 @@
         <div class="form-group">
           <label class="form-label">Causa de la Baja *</label>
           <select id="archiveReasonSelect" class="form-select" required onchange="cambiarTipoMotivo(this.value)">
-            <option value="Traslado a otra institucion medica">Traslado a otra institucion medica</option>
+            <option value="Traslado a otra institucion medica">Traslado a otra institución medica</option>
             <option value="Fallecimiento del paciente">Fallecimiento del paciente</option>
             <option value="Causa administrativa (cambio de residencia / solicitud del titular)">Causa administrativa (cambio de residencia / solicitud titular)</option>
             <option value="OTRO">Otro motivo especifico...</option>
@@ -591,5 +633,6 @@
   </div>
 
   <script src="app.js"></script>
+  <script src="access.js"></script>
 </body>
 </html>
