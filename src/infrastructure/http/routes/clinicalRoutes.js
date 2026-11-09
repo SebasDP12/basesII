@@ -22,7 +22,7 @@ router.get('/patients/:id/history', async (req, res) => {
 });
 
 // Registrar nuevo evento clínico (Consulta + Diagnóstico + Tratamiento / Procedimiento / Examen / Vacuna)
-router.post('/events', requireRole('medico','odontologo','pediatra','laboratorista','enfermeria'), async (req, res) => {
+router.post('/events', requireRole('medico','odontologo','pediatra','laboratorista','enfermeria','admin'), async (req, res) => {
   try {
     const institutionId = getInstitution(req);
     const result = await medicalRecordService.recordMedicalEvent(institutionId, req.body);

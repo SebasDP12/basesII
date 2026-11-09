@@ -36,9 +36,19 @@ class MongoAdapter extends MedicalRecordRepositoryPort {
 
   async isMongoReachable() {
     const uri = process.env.MONGO_URI || 'mongodb://localhost:27017/laboratorio_clinico';
-    const match = uri.match(/:(\d+)/);
-    const port = match ? parseInt(match[1], 10) : 27017;
-    const host = uri.includes('@') ? uri.split('@')[1].split(':')[0] : 'localhost';
+    let host = 'localhost';
+    let port = 27017;
+    try {
+      const parsed = new URL(uri);
+      host = parsed.hostname || 'localhost';
+      port = parseInt(parsed.port || '27017', 10);
+    } catch (e) {
+      const match = uri.match(/mongodb:\/\/(?:[^@]+@)?([^:/]+)(?::(\d+))?/);
+      if (match) {
+        host = match[1] || 'localhost';
+        port = match[2] ? parseInt(match[2], 10) : 27017;
+      }
+    }
 
     return new Promise((resolve) => {
       const sock = new net.Socket();

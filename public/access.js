@@ -6,10 +6,10 @@ const originalEnterInstitution = window.entrarAEstablecimiento;
 const originalGoPortal = window.irAlPortal;
 
 function aplicarPermisosVista(rol) {
-  const canWrite = ['medico','odontologo','pediatra','laboratorista','recepcion','enfermeria'].includes(rol);
-  const canAttend = ['medico','odontologo','pediatra','laboratorista','enfermeria'].includes(rol);
-  const canArchive = ['medico','odontologo','pediatra'].includes(rol);
-  const canInspect = ['medico','odontologo','pediatra','laboratorista'].includes(rol);
+  const canWrite = ['medico','odontologo','pediatra','laboratorista','recepcion','enfermeria','admin'].includes(rol);
+  const canAttend = ['medico','odontologo','pediatra','laboratorista','enfermeria','admin'].includes(rol);
+  const canArchive = ['medico','odontologo','pediatra','admin'].includes(rol);
+  const canInspect = ['medico','odontologo','pediatra','laboratorista','admin'].includes(rol);
   const entries = {
     'nuevo-paciente': canWrite,
     'atencion': canAttend,

@@ -188,7 +188,6 @@ function createAccount({ username, nombre, rol, institutionId, password }) {
     throw new Error('Institución o rol inválidos.');
   }
   if (institutionId === 'admin' && rol !== 'admin') throw new Error('Rol administrativo inválido.');
-  if (institutionId !== 'admin' && rol === 'admin') throw new Error('Rol administrativo no permitido para una institución.');
   const users = loadUsers();
   if (users.some(u => u.username === username)) {
     const err = new Error('El nombre de usuario ya existe. Elija otro.');

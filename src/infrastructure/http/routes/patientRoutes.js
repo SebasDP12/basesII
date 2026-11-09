@@ -2,8 +2,8 @@ const express = require('express');
 const router = express.Router();
 const medicalRecordService = require('../../../domain/services/MedicalRecordService');
 const { requireRole } = require('../security/authService');
-const canWrite = requireRole('medico','odontologo','pediatra','laboratorista','recepcion','enfermeria');
-const canArchive = requireRole('medico','odontologo','pediatra');
+const canWrite = requireRole('medico','odontologo','pediatra','laboratorista','recepcion','enfermeria','admin');
+const canArchive = requireRole('medico','odontologo','pediatra','admin');
 
 // Middleware para extraer la institución activa del header o query param
 function getInstitution(req) {

@@ -1,12 +1,12 @@
 'use strict';
 const $ = id => document.getElementById(id);
 const roles = {
-  hospital: [{id:'medico',name:'Médico'}, {id:'recepcion',name:'Recepción'}],
-  odontologia: [{id:'odontologo',name:'Odontólogo'}, {id:'recepcion',name:'Recepción'}],
-  laboratorio: [{id:'laboratorista',name:'Laboratorista'}, {id:'recepcion',name:'Recepción'}],
-  pediatria: [{id:'pediatra',name:'Pediatra'}, {id:'enfermeria',name:'Enfermería'}, {id:'recepcion',name:'Recepción'}]
+  hospital: [{id:'admin',name:'Administrador'}, {id:'medico',name:'Médico'}, {id:'recepcion',name:'Recepción'}],
+  odontologia: [{id:'admin',name:'Administrador'}, {id:'odontologo',name:'Odontólogo'}, {id:'recepcion',name:'Recepción'}],
+  laboratorio: [{id:'admin',name:'Administrador'}, {id:'laboratorista',name:'Laboratorista'}, {id:'recepcion',name:'Recepción'}],
+  pediatria: [{id:'admin',name:'Administrador'}, {id:'pediatra',name:'Pediatra'}, {id:'enfermeria',name:'Enfermería'}, {id:'recepcion',name:'Recepción'}]
 };
-const professional = new Set(['medico','odontologo','laboratorista','pediatra']);
+const professional = new Set(['medico','odontologo','laboratorista','pediatra','admin']);
 const names = {hospital:'Hospital General',odontologia:'Clínica Odontológica',laboratorio:'Laboratorio Clínico',pediatria:'Centro Médico Pediátrico',admin:'Administración'};
 
 async function api(url, options={}) {

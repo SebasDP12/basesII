@@ -6,5 +6,5 @@ node_modules/
 # Credenciales locales, sesiones y copias de seguridad
 .env
 .env.local
-security/
+/security/
 *.bak

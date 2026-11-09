@@ -5,12 +5,12 @@ const connections = require('../../database/connectionManager');
 const security = require('../security/authService');
 
 const ALLOWED_ROLES = {
-  hospital: ['medico', 'recepcion'],
-  odontologia: ['odontologo', 'recepcion'],
-  laboratorio: ['laboratorista', 'recepcion'],
-  pediatria: ['pediatra', 'enfermeria', 'recepcion']
+  hospital: ['medico', 'recepcion', 'admin'],
+  odontologia: ['odontologo', 'recepcion', 'admin'],
+  laboratorio: ['laboratorista', 'recepcion', 'admin'],
+  pediatria: ['pediatra', 'enfermeria', 'recepcion', 'admin']
 };
-const PROFESSIONAL_ROLES = new Set(['medico', 'odontologo', 'laboratorista', 'pediatra']);
+const PROFESSIONAL_ROLES = new Set(['medico', 'odontologo', 'laboratorista', 'pediatra', 'admin']);
 const requireAdmin = [security.requireSession, security.requireRole('admin')];
 
 router.get('/setup-status', (req, res) => {
